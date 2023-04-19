@@ -1,0 +1,401 @@
+@charset "utf-8";
+.pop_wrap {
+    position: absolute;
+    background: #fff;
+    z-index: 4001;
+    text-align: left;
+}
+.pop_wrap.gray1px {border: 1px solid #ccc;}
+.pop_content{overflow:hidden;position:relative}
+
+.visit_bookmark .pop_wrap.gray1px {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 4000;
+}
+.visit_bookmark .pop_content{overflow:visible}
+.visit_bookmark .under_catelist{padding:0 8px 0px}
+
+.under_catelist{width:514px;height:auto;padding:12px}
+.under_catelist.newvisit_layer{width:702px;min-height:212px;font-size:12px;line-height:1.5}
+.under_catelist.newvisit_layer .under_listbox{margin-left:-19px;margin-top:10px}
+.under_catelist .under_listbox{overflow:hidden;min-height:66px;margin-top:9px}
+
+.visit_bookmark .tabcon_bottom{position:relative;height:20px;margin:5px 0 13px}
+.visit_bookmark .under_catelist.newvisit_layer{width:100%!important;min-height:197px;box-sizing:border-box}
+.visit_bookmark .under_catelist.newvisit_layer .under_listbox{min-height:123px;padding:0 10px;margin-left:-17px}
+.visit_bookmark .tabslist li{float:left;width:50%;text-align:center;border-bottom:1px #3b4890 solid }
+.visit_bookmark .tabslist li button{position:relative;width:100%;height:40px;font-size:14px;color:#333;font-weight:bold;}
+.visit_bookmark .tabslist li.on button{color:#3b4890}
+
+.visit_bookmark .list_modi{position:absolute;right:6px;bottom:-1px;color:#29367c;text-decoration:underline;padding:3px}
+/* member 2023-03-06 추가 */
+.lyprivacy {
+    position: absolute;
+    width: 465px;
+    line-height: 1.5;
+    z-index: 1;
+}
+.lyprivacy .poply_close {
+    top: 11px;
+    right: 11px;
+}
+.poply_close {
+    position: absolute;
+    right: 14px;
+    top: 13px;
+}
+.policy_table.ly th:first-child, .policy_table.ly td:first-child {
+    border-width: 1px 1px 1px 0px;
+}
+.policy_table.ly th, .policy_table.ly td {
+    border-width: 1px 0 1px 1px;
+    font-size: 11px;
+}
+.policy_table.ly th {
+    height: 30px;
+}
+
+.policy_table.ly td {
+    padding: 10px;
+}
+.icon_tipclose {
+    display: block;
+    width: 11px;
+    height: 11px;
+    background-position: -126px -132px;
+}
+.pop_wrap.type2 {
+    border: 1px solid #29367c;
+}
+.pw_seting {
+    width: 378px;
+    padding: 0 12px 15px;
+    box-sizing: border-box;
+}
+.pop_wrap .pop_head.dashed {
+    height: 38px;
+    line-height: 38px;
+    border-bottom: 1px dashed #aaa;
+    color: #29367c;
+}
+.pw_seting .pop_head strong {
+    padding-left: 3px;
+}
+.pw_seting .inner {
+    margin-top: 13px;
+    letter-spacing: -0.025em;
+}
+.pw_seting .pop_info {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    line-height: 20px;
+    height: 67px;
+    box-sizing: border-box;
+    padding: 15px 12px 9px 13px;
+}
+.pop_info {
+    clear: both;
+    padding: 13px 12px 9px;
+    background: #f3f3f3;
+    font-size: 12px;
+    color: #555;
+    line-height: 18px;
+}
+.pw_seting .step_info li {
+    clear: both;
+    display: inline-block;
+    content: "";
+    margin: 0;
+    line-height: 20px;
+}
+.pw_seting .step_info {
+    font-size: 12px;
+    color: #333;
+    margin-top: 13px;
+    padding-left: 9px;
+    box-sizing: border-box;
+}
+.pw_seting .step_info em, .pw_seting .step_info span {
+    float: left;
+}
+.pw_seting .tip_deco_dot {
+    margin: 10px 7px 0 0;
+}
+.tip_deco_dot {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    background: #333;
+    font-size: 0;
+    vertical-align: 4px;
+    margin-right: 6px;
+}
+.pw_seting .step_info .tit {
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: bold;
+    padding: 0;
+}
+.pw_seting .impossible {
+    color: #d31900;
+}
+.pw_seting .step_info .txt {
+    margin-left: 5px;
+    display: inline-block;
+}
+.pw_seting .normal {
+    color: #ff9933;
+}
+.pw_seting .step_info li:nth-child(2) .txt {
+    width: 300px;
+    position: relative;
+    padding-left: 5px;
+}
+.pw_seting .safe {
+    color: #008140;
+}
+.under.poply_close {
+    top: 10px;
+}
+.icon_lyclose {
+    display: block;
+    width: 17px;
+    height: 17px;
+    background-position: -102px -135px;
+}
+.pop_wrap.type3, .pop_wrap.file {
+    border: 1px solid #29367c;
+    border-width: 2px 1px 1px;
+}
+/* 갤러리 index */
+.pop_wrap.lightpurple{border-color:#4f4dc6}
+.pop_wrap .pop_hot_gall .dashed{font-size:12px;padding-left:0}
+.pop_wrap.lightpurple .pop_hot_gall .pop_head.dashed{color:#4f4dc6}
+.miniwrap .pop_wrap .pop_hot_gall .btn_box, .pop_wrap .pop_hot_gall .btn_box{border-top:none;padding:0 0 0 15px;line-height:15px;clear:both}
+.pop_wrap .pop_hot_gall .btn_box{padding-top:3px}
+/* /갤러리 index*/
+/* 어드민 팝업 */
+/* 회원 목록 자세히보기 팝업 */
+.admin.pop_back {position: absolute;left: 0;top: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.5);z-index: 4000;}
+.admin.pop_wrap {position: relative;top: 15%;width: 1000px;margin: 0 auto;}
+.pop_content > .admin.cont_head {background: green;border: 1px solid green;width: 100%;line-height: 32px;font-size: 14px;color: white;}
+.pop_content > .admin.cont_head > a {position: absolute; top: 0;right: 17px;font-size: 14px;font-weight: bold;color: white;}
+.admin_member.pop_content ul.admin_member_popup_gnb {display: inline-block;width: 100%;background: #ccc;}	
+.admin_member.pop_content ul.admin_member_popup_gnb > li {float: left;width: 12.5%;height: 40px;text-align: center;line-height: 40px;border: 1px solid grey;box-sizing: border-box;}	
+.admin_member.pop_content ul.admin_member_popup_gnb > li.on {background: white;border-bottom: 1px solid white;}
+
+/* 갤러리 글 목록 */
+.pop_tipbox.minor_tip .inner.hotgall_tip{min-width:365px;text-align:left}
+.hotgall_tip .minor_tip_txt{min-width:342px}
+.hotgall_tip .minor_tip_txt > p{padding-top:1px;letter-spacing:-0.025em}
+.hotgall_tip .minor_tip_txt > p::before{content:"";display:inline-block;width:2px;height:2px;background:#555;margin:0 4px 0 1px;vertical-align:5px}
+.btn_tipclose{position:absolute;top:10px;right:8px;display:inline-block;width:14px;height:13px;margin-left:5px;background-position:-24px -241px}
+
+/* 2023/03/15 검색 개선 - 페이지 이동, 빠른 이동 */
+.pop_content.schmove{overflow:visible }
+.pop_content.schmove .inner{padding:14px 16px 19px 16px;color:#333}
+.pop_content.schmove .inner.page{width:286px}
+.pop_content.schmove .inner.fast{width:326px}
+
+.poply_bgblueclose,.poply_saveclose,.popbtn_bgblueclose,.poply_greyclose,.btn_noagain{position:absolute;right:0;top:0}
+.poply_bgblueclose{line-height:0;font-size:0}
+.icon_bgblueclose,.icon_saveclose{display:inline-block;width:20px;height:20px;background-position:-107px -78px}
+
+.pop_wrap.type3 .pop_head{overflow:hidden;height:35px;padding:0 20px 0 13px;line-height:35px;border-bottom:1px solid #ccc;font-size:14px;color:#29367c}
+.pop_wrap.type3 .pop_head h3{font-size:14px}
+
+.pop_content.schmove .hint_txt{letter-spacing:-0.024em}
+.pop_content.schmove .hint_txt.font_red{padding-top:12px;padding-bottom:1px;line-height:100%}
+.pop_content .moveset{position:relative;margin-top:11px;font-size:0}
+.pop_content .moveset .tit, .pop_content .moveset input,
+.pop_content .moveset .num, .pop_content .moveset .txt, .pop_content .moveset > button{font-size:12px;font-weight:normal;margin-left:0;vertical-align: middle}
+
+.pop_content .moveset input{border:1px #ccc solid;width:76px;height:27px;margin:0 8px 0 7px;padding:7px 9px 8px;box-sizing:border-box;text-align:right;line-height:100%}/*211118 폰트 버그 padding:8px 9px 수정,line-height:100%추가*/
+.pop_content .fast .moveset input{width:78px;padding:7px 6px 8px;text-align:left}/*211118 폰트 버그 padding:8px 6px;width:76px*/
+.pop_content .moveset > button{width:60px;height:27px;line-height:25px;margin-left:15px}/*211118 폰트버그 line-height:27px*/
+.pop_content .fast .moveset > button{margin-left:13px}
+.pop_content .moveset .num::before{content:"/";color:#333;font-size:12px;margin-right:4px}
+
+/*연관갤러리*/
+.relation_wrap{overflow:hidden;width:1158px}
+.listwrap .relation_wrap{width:838px;height:280px}
+.relation_wrap .inner{float:left;width:50%;box-sizing:border-box}
+.relation_wrap .inner .list_box{overflow-y:auto;height:101px;padding:16px 15px 5px}
+.listwrap .relation_wrap .inner .list_box{height:121px}
+.relation_wrap .inner .list_box li{float:left;width:33.3%;line-height:20px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.relation_wrap .newtxt{color:#3b4890}
+.listwrap  .relation_wrap .inner .list_box li{width:49.9%}
+.relation_wrap .inner:last-of-type{border-left:1px solid #ccc}
+.relation_wrap .pop_info b{color:#333}
+.relation_wrap .pop_info {color:#999}
+.icon_right_arrow{display:inline-block;width:10px;height:9px;background-position:-154px -59px}
+.relation_wrap .btn_box{padding:0 0 19px;border-top:none;line-height:15px}
+
+/* 이용안내 */
+.user_guide_popup{z-index:4002!important}
+.gall_guide{width:608px;height:648px;background:#fff}
+.gall_guide .caption_box{overflow-y:scroll;height:595px;padding:16px 17px 0;color:#555;line-height:20px}
+.gall_guide .list{margin-top:5px}
+.gall_guide .sub_tit{padding-top:10px}
+.gall_guide .etc_list{margin-bottom:15px}
+.gall_guide .etc_list strong{display:block;margin-top:11px}
+.gall_guide .etc_list strong::before{content:"";display:inline-block;width:2px;height:2px;background:#555;vertical-align:4px;margin-right:3px}
+.gall_guide .reference{margin-top:11px;color:#29367c}
+.pop_wrap.file .pop_head,.pop_wrap .pop_head.bg{height:37px;padding:0 14px;line-height:35px;border-bottom:none;background:#3b4890}
+.pop_wrap.file .pop_head h2,.pop_wrap .pop_head.bg h3{font-size:14px;color:#fff;}
+.poply_whiteclose{position:absolute;right:11px;top:8px}
+.icon_whiteclose{display:inline-block;width:17px;height:18px;background-position:-107px -108px}
+.pop_bg{position:fixed;top:0px;right:0px;bottom:0px;left:0px;width:100%;height:100%;background:#000;filter:alpha(opacity=50);opacity:0.5;z-index:99}
+
+/*저작권법 내용보기, 게시물 활용안내, 힛갤 경품  내용 상세*/
+.copyright_law,.post_guide{width:414px;padding:0 12px 16px 14px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;font-size:12px;color:#555}
+.copyright_law .guide_txtbox,.post_guide .guide_txtbox{margin-top:13px;line-height:20px}
+.write_infobox .copyright_law p::before,.write_infobox .post_guide p::before{display:none}
+.pop_content.whittip{padding:12px 22px 10px 15px;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",arial,Dotum,돋움,sans-serif;font-size:12px;color:#555;line-height:20px}
+.poply_close.whittip_b{top:11px;right:11px}
+
+/*글쓰기*/
+.hitup_ly .btn_box,.write_ly .btn_box{border-top:0;padding:10px 0 8px}
+.write_ly{padding-bottom:34px}
+
+/*힛추 글쓰기*/
+.hitup_ly,.write_ly{width:398px;color:#555}
+.hitup_cont,.write_cont{padding-top:30px }
+.hitup_ly .txt,.write_ly .txt{font-size:14px;font-weight:bold;text-align:center}
+.hitgall_go{display:block;padding:0 25px 12px;text-align:right;font-size:12px;color:#555;}
+.hitgall_go:hover{text-decoration:none}
+.hitgall_go::after{content:"";width:5px;height:11px;display:inline-block;vertical-align:0px;margin-left:3px;
+;background:url(/img/sp_img.png)no-repeat -110px -56px}
+
+/*차단설정*/
+.block_setting_box .pop_info{padding:11px 12px 9px}
+.block_tab{padding-left:19px}
+.block_tab button{width:281px;padding-left:19px;margin:18px 0 15px}
+.tabcontent{overflow-y:scroll;width:579px;padding:0px 19px 0;color:#555}
+.tabcontent.all_setting{padding-bottom:22px;height:384px}
+.tabcontent.part_setting{padding-bottom:17px;height:583px}
+.block_setting_box .part_setting .part_schbox > .set_cont{margin-top:0}
+.part_schbox .radiobox:first-of-type{margin-left:30px}
+.part_schbox .radiobox{margin-left:12px}
+.block_setting_box .inner .pop_info{position:relative;margin:0px 0 6px;padding:13px 12px 10px}
+.block_setting_box .inner .part_setting .pop_info{margin:0px 0 6px}
+.block_setting_box .inner .pop_info h4{display:block;font-size:14px;margin-bottom:2px}
+.block_setting_box .inner .pop_info h4 .icon_mini{margin-top:5px}/*211118 폰트 버그  스타일 추가 1207 */
+.setting_onoff{position:absolute;bottom:9px;right:14px}
+.setting_onoff button{width:66px;height:23px;background-position:0 -241px}
+.setting_onoff button.on{background-position:0 -266px}
+.set_cont{overflow:hidden;position:relative;padding:15px 0 16px;border-bottom:1px dashed #aaa}
+.set_cont:last-of-type{border-bottom:none}
+.setting_off .set_cont .intxt{background:#f3f3f3}
+.cont_tit{display:block;float:left;width:94px;margin-left:8px;font-size:12px;color:#555;font-weight:bold;line-height:30px}
+.intxt{border:1px solid #cecdce;width:378px;height:28px;line-height:28px;padding:0 5px}
+.btn_enroll{position:absolute;right:5px;top:15px;width:66px;height:30px;line-height:30px;background:#f3f3f3;border:1px solid #cecdce;color:#333;font-weight:bold;overflow:hidden}/*210126 아웃라인이슈로 overflow추가*/
+.block_list{overflow:hidden;margin:10px 0 0 86px}
+.block_list.gall{margin:3px 0 0 0}
+.block_list li{float:left;margin-left:15px}
+.block_setting_box .part_setting .block_list.gall li:first-child{margin-left:0}
+
+.block_list span{color:#555;}
+.block_list.gall span{padding-right:0px}
+.block_setting_wrap .block_setting_box .block_list li > button{outline:none}/*0522 크롬 outline업데이트 이슈로 추가*/
+.block_setting_box .block_list.gall .icon_bword_del{margin-left:3px}
+.block_setting_wrap .btn_box{padding:12px 0 17px}
+.block_setting_wrap .btn_box .btn_apply{margin-left:2px}
+.part_setting .gall_sel_tit{line-height:31px}
+.part_schbox{overflow:hidden;margin:16px 5px 26px 5px;position:relative}/*210421*/
+.part_schbox .set_cont{width:262px;padding:0;margin-left:16px}
+.part_schbox .intxt{width:185px}
+.part_schbox .btn_enroll{width:66px;right:0;top:0}
+.block_sch_gall{overflow-y:scroll;float:left;width:534px;height:56px;margin:6px 0 0;padding:10px 0px 8px 16px;border:1px solid #cecdce}
+.block_sch_gall li{float:left;width:128px;line-height:20px}
+.block_sch_gall a{color:#555;display:block;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.empty_sch_gall{float:left;width:516px;height:100px;border:1px solid #cecdce;margin-top:6px;padding:10px 16px 8px 16px}
+
+/*특정 IP 대역 입력*/
+.set_content.prevent_code .pop_wrap.type3{margin-top:-8px}
+.pop_content.ipinbox{padding:0}
+.pop_content.ipinbox .pop_info{padding:8px 12px 8px}
+.pop_content.ipinbox .ip_inr{padding:15px 15px 0px}
+.pop_content.ipinbox .ip_inr textarea{width:300px;height:135px;padding:5px;border:1px #bbb solid;color:#555;line-height:16px}
+.pop_content.ipinbox .info_txt{position:relative;padding:8px 17px 0;font-size:12px;line-height:16px;color:#999}
+.pop_content.ipinbox .info_txt .tip_deco999{margin-right:3px}
+.pop_content.ipinbox .btn_box{margin-top:12px;border-top:none;padding-top:0}
+.pop_content.ipinbox .max_txt{position:absolute;right:17px;top:4px;display:block;text-align:right;line-height:24px;color:#555}
+
+.pop_content.ipinbox .ip_inr textarea::-webkit-input-placeholder{color:#999}
+.pop_content.ipinbox .ip_inr textarea:-moz-placeholder{color:#999}
+.pop_content.ipinbox .ip_inr textarea::-moz-placeholder {color:#999}
+.pop_content.ipinbox .ip_inr textarea:-ms-input-placeholder{color:#999}
+
+/*방명록 차단 설정*/
+.pop_content.guestblock{width:398px;}
+.pop_content.guestblock .inner{padding:17px 13px 0}
+.pop_content.guestblock .ip_inr{padding:0}
+.pop_content.guestblock .cont_tit{width:102px;margin-left:0;line-height:16px;color:#333}
+.pop_content.guestblock .box{margin-top:7px}
+.pop_content.guestblock .box:first-child{margin-top:0px}
+.pop_content.guestblock .radiobox input[type="radio"],.pop_content.guestblock  .radiobox input + .checkmark{top:1px}
+.pop_content.guestblock .radiobox label{font-size:12px;color:#555;line-height:15px}/*211118 폰트 버그 line-height:15px추가*/
+.pop_content.guestblock .radiobox{padding-left:18px;margin-left:13px;vertical-align:top;line-height:14px}/*211118 폰트 버그 line-height:16px*/
+.pop_content.guestblock .radiobox:first-child{margin-left:0}
+.pop_content.guestblock .ip_inr{border-top:1px #aaa dashed;margin-top:15px;padding-top:17px}
+.pop_content.guestblock .ip_inr:first-child{border-top:none;margin-top:0;padding-top:0}
+.pop_content.guestblock .ip_inr textarea{width:253px;height:74px;overflow-y:scroll;border:1px #cecdce solid;line-height:18px;padding:7px}
+.pop_content.guestblock .info_txt{clear:both;margin-left:84px;margin-top:7px}
+.pop_content.guestblock .info_txt p{margin-top:2px}
+.pop_content.guestblock .info_txt p:first-child{margin-top:0}
+.pop_content.guestblock .info_txt .tip_deco999{margin-right:1px}
+.pop_content.guestblock .btn_box{margin-top:17px;padding:0 0 25px}
+.pop_content.guestblock .btn_box button{width:58px}
+
+/* 갤러리 개설 신청용 팝업css */
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 20px;
+    width: 400px;
+    z-index: 100;
+}
+
+.popup-close-button {
+    margin-top: 20px;
+}
+
+.approval-popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    line-height: 1.5;
+}
+.approval-popup h3 {
+    margin-top: 0;
+}
+.approval-popup button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 17px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.approval-popup button.reject {
+    background-color: #f44336;
+}

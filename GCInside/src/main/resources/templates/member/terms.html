@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<th:block th:replace="~{member/_header_join}"></th:block>
+        <main class="container">
+            <div class="content">
+                <article>
+                    <form action="policyForm" id="policyForm" method="post" style="width: 865px; margin: 0 auto;">
+                        <section id="joinpath">
+                            <h2 class="blind">페이지경로</h2>
+                            <div class="sp_joinpath joinpath1">
+                                <p class="blind">약관동의</p>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="cont_head">
+                                <h3 class="head_tit">약관 동의</h3>
+                            </div>
+                            <div class="con_box policy_box">
+                    <!-- 서비스 이용약관 -->
+                    <div id="service_policy" class="con ser_policy clear">
+                        <h4 class="tit font_red dotred">서비스 이용약관</h4>
+                        <div class="scroll" id="scroll1">
+                            <div class="policy_cont" th:utext="${data1.term_content}"></div>
+                        </div>
+                        <div class="policy_check">
+                          <span class="checkbox">
+                            <input type="checkbox" id="service_agree">
+                            <em class="checkmark"></em>
+                            <label for="service_agree">&nbsp;내용을 확인하였으며, 동의합니다.</label>
+                          </span>
+                        </div>
+                    </div>
+                        <!-- //서비스 이용약관 -->
+                        <!-- 개인정보 수집 및 이용 약관 -->
+                        <div id="privacy_policy" class="con pri_policy clear">
+                            <div class="clear">
+                                <h4 class="tit font_red dotred fl">개인정보처리방침</h4>
+                            </div>
+                            <!--scroll-->
+                            <div class="scroll" id="scroll2">
+                                <!--211209 policy_cont -->
+                                <!-- 지시인사이드 개인정보처리방침 -->
+                                <div class="policy_cont privacy" th:utext="${data2.term_content}"></div>
+
+                                <!-- //지시인사이드 개인정보처리방침 -->
+                                <!--//policy_cont-->
+                            </div>
+                            <!--//scroll-->
+
+                            <div class="policy_check">
+                      <span class="checkbox">
+                        <input type="checkbox" id="personal_agree">
+                        <em class="checkmark"></em>
+                        <label for="personal_agree">&nbsp;내용을 확인하였으며, 동의합니다.</label>
+                      </span>
+                            </div>
+                        </div>
+                        <div class="policy_check">
+                      <span class="checkbox" style="left:-129px;">
+                        <input type="checkbox" id="all_agree">
+                        <em class="checkmark"></em>
+                        <label for="all_agree">&nbsp;전체동의</label>
+                      </span>
+                        </div>
+                    </div>
+                    <!-- //개인정보 수집 및 이용 약관 -->
+                    <div class="btn_box clear">
+                        <div class="fr" style="margin-top:-20px;">
+                            <a th:href="@{/member/register}"><button type="button" id="policy_agree" class="btn_grey small bnt_next" style="margin-left:15px;">다음</button></a>
+                        </div>
+                    </div>
+                        </section>
+                    </form>
+                </article>
+            </div>
+        </main>
+<script>
+    $(function(){
+        agreeInit();
+    });
+</script>
+<th:block th:replace="~{fragment/footer_fragment::termsFooter}"></th:block>
+</div>
+</body>
+</html>

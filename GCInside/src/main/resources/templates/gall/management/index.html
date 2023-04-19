@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 헤드영역 -->
+    <th:block th:replace="~{fragment/head_fragment::managementHead}"></th:block>
+</head>
+<body>
+    <div class="gcwrap">
+
+        <!-- 헤더 -->
+        <header class="gcheader typea">
+
+            <div class="gchead">
+                <!-- 메인 로고 -->
+                <th:block th:replace="~{fragment/header_fragment::minorHeader}"></th:block>
+
+                <div class="wrap_search">
+                    <!-- 갤러리 통합검색-->
+                    <form>
+                        <fieldset>
+                            <div class="top_search clear">
+                                <div class="inner_search">
+                                    <input class="in_keyword" type="text" name="search"
+                                    placeholder="갤러리 & 통합검색" autocomplete="off"
+                                    title="검색어 입력">
+                                </div>
+                                <button class="sp_main bnt_search"></button>
+                                <!-- 검색어 자동 완성 기능 -->
+                                <div class="auto_wordwrap" style="left: 0px; top: 46px; display: none;"></div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <!-- gnb -->
+        <div th:replace="~{fragment/gnb_fragment::mainGnb}"></div>
+
+        <!-- 최근 방문 탭 -->
+        <div class="visit_bookmark">
+            <div class="newvisit_history vst">
+                <h3 class="tit vst_title 1_div_style">최근 방문</h3>
+                <h3 class="tit bookmark_title f_div_style" style="display: none;">최근 방문</h3>
+                <button type="button" class="btn_open">
+                    <em class="sp_img icon_listmore"></em>
+                </button>
+                <button type="button" class="bnt_visit_prev">
+                    <em class="sp_img icon_prev"></em>
+                </button>
+                <div class="newvisit_box"></div>
+                <button type="button" class="bnt_visit_next">
+                    <em class="sp_img icon_next"></em>
+                </button>
+                <button type="button" class="bnt_newvisit_more">전체</button>
+                <!-- 최근방문 / 즐겨찾기 레이어 -->
+                <div class="pop_wrap gray1px" style="left: 0px; top: 37px; display: none;"></div>
+            </div>
+        </div>
+
+        <main id="container" class="minor_admin">
+            <!-- 갤러리명 타이틀바 ~ 이용안내 -->
+
+            <header>
+                <div class="page_head clear">
+                    <div class="fl clear">
+
+                        <div class="lock"><em class="sp_img icon_minilock"></em><span class="blind">비공개</span></div>
+
+                        <h2>
+                            <a th:href="|@{/}mgall/board/lists?id=${stringObjectMap.gell_address}|">
+                                <span th:text="|${stringObjectMap.gell_name} 갤러리|">ㅇㅇㅇ  갤러리</span>
+                                <div class="pagehead_titicon ngall sp_img">
+                                    <span class="blind">미니</span>
+                                </div>
+                            </a>
+                        </h2>
+
+
+                        <div class="useradmin_go">
+                            <button type="button" class="sp_img btn_useradmin_go" th:onclick="|location.href=@{/gall/management/index(id=${stringObjectMap.gell_address})}|">
+                                <span class="blind">관리</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </header>  
+            <div class="minor_uadmin_wrap clear">
+                <!-- left_content -->
+                <script type="text/javascript">
+                    var mgall_id = 'qivreg';
+                    var mgall_block = 'N';
+                </script>
+
+                <section id="left_cont_wrap"  class="left_content">
+                    <h2 class="blind">왼쪽 컨텐츠 영역</h2>
+                    <ul class="minor_uadmin_menu">
+                        <li><a th:href="|@{/}gall/management/index?id=${stringObjectMap.gell_address}|" class="on">기본 설정</a></li>
+                        <li><a th:href="|@{/}gall/management/gallery?id=${stringObjectMap.gell_address}|" class="">갤러리 설정</a></li>
+                        <li><a th:href="|@{/}gall/management/block?id=${stringObjectMap.gell_address}|" class="">차단 목록 </a></li>
+                        <li><a th:href="|@{/}gall/management/delete?id=${stringObjectMap.gell_address}|" class="">삭제 목록 </a></li>
+                        <li><a th:href="|@{/}gall/management/submanager?id=${stringObjectMap.gell_address}|" class="">부매니저</a></li>
+                        <li><a href="#" onclick="alert('매니저 위임은 개설일 기준으로 7일 이후 가능합니다.');return false;" class=>매니저 위임</a></li>
+                        <li><a th:href="|@{/}gall/management/report?id=${stringObjectMap.gell_address}|" class="">관리 기록</a></li>
+                    </ul>
+                </section>
+
+                <!-- right_content -->
+                <section id="right_cont_wrap" class="right_content">
+                    <h2 class="blind">오른쪽 컨텐츠 영역</h2>
+                    <div class="minor_uadmin_setting">
+                        <fieldset>
+                            <legend class="blind">미니 갤러리 관리</legend>
+
+                            <div class="form_group">
+                                <div class="set_content name clear">
+                                    <div class="set_tit">이름</div>
+
+                                    <div class="set_disable">
+                                        <div class="cont_box">
+                                            <p th:text="${stringObjectMap.gell_name}" id="mg_name_text">ㅇㅇㅇ </p>
+                                        </div>
+
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_modify" data-error="이름은 개설 후, 7일 내 1회만 수정할 수 있습니다.">수정</button>
+                                        </div>
+
+                                    </div>
+                                    <div class="set_enable" style="display:none;">
+                                        <div class="cont_box clear">
+                                            <div class="cont_input_box">
+                                                <input class="t_input chk_str_length" id="mg_name" name="mg_name" type="text" placeholder="미니 갤러리 이름을 간단히 넣어주세요."
+                                                       th:data-id="${stringObjectMap.gell_address}" th:data-org="${stringObjectMap.gell_name}" th:value="${stringObjectMap.gell_name}" />
+                                                <span th:if="${stringObjectMap.gell_grade == 0}" th:text="메인갤러리" class="basic_tit"></span>
+                                                <span th:if="${stringObjectMap.gell_grade == 1}" th:text="마이너갤러리" class="basic_tit"></span>
+                                                <span th:if="${stringObjectMap.gell_grade == 2}" th:text="미니갤러리" class="basic_tit"></span>
+                                            </div>
+                                            <span class="max_txt" ><span>12</span>/<b>12</b></span>
+                                            <p class="tiptxt red"><em class="sp_img tip_deco"></em>이름은 개설 후, 7일 내 1회만 수정 가능합니다.</p>
+
+
+                                            <p class='tiptxt name_fail_msg' style="display:none;"></p>
+                                            <div class="name_modify" style="display:none;">
+                                                <strong class="cont_boxtit">이름 수정 사유</strong>
+                                                <textarea class="t_area chk_str_length" id="reason" placeholder="운영자에게 전달되는 메시지입니다."></textarea>
+                                                <span class="max_txt"><span>0</span>/<b>100</b></span>
+
+                                            </div>
+                                        </div>
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_save" onclick="update_name()"><b>저장</b></button>
+                                            <button type="button" class="set_cancel">취소</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div><div class="form_group">
+                            <div class="set_content desc clear">
+                                <div class="set_tit">설명</div>
+
+                                <div class="set_disable">
+                                    <div class="cont_box" style="word-break: break-all;">
+                                        <p th:text="${stringObjectMap.gell_info}" id="mg_desc_text">~~~~하기 위한 갤러리</p>
+                                    </div>
+                                    <div class="fr set_btn">
+                                        <button type="button" class="font_lightblue set_modify">수정</button>
+                                    </div>
+                                </div>
+                                <div class="set_enable" style="display:none;">
+                                    <div class="cont_box">
+                                        <textarea th:text="${stringObjectMap.gell_info}" class="t_area chk_str_length" id="mg_desc" name="mg_desc" placeholder="미니 갤러리에 대한 설명을 넣어주세요.">~~~~하기 위한 갤러리</textarea>
+                                        <div class="clear">
+                                            <span class="max_txt"><span>20</span>/<b>200</b></span>
+                                        </div>
+                                    </div>
+                                    <div class="fr set_btn">
+                                        <button type="button" class="font_lightblue set_save" onclick="update_desc()"><b>저장</b></button>
+                                        <button type="button" class="set_cancel">취소</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="set_content name clear">
+                                    <div class="set_tit">주소</div>
+                                    <div class="set_disable">
+                                        <div class="cont_box">
+                                            <p th:text="${stringObjectMap.gell_address}">http://gall.dcinside.com/mini/qivreg</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="set_content category clear">
+                                    <div class="set_tit">카테고리</div>
+                                    <div class="set_disable">
+                                        <div class="cont_box">
+                                            <p th:text="${stringObjectMap.gell_cate2_name}" id="mg_category_text">기타</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="set_content list_only_member clear">
+                                    <div class="set_tit">공개 설정</div>
+                                    <div class="set_disable">
+                                        <div class="cont_box">
+                                            <p>
+                                                <span th:text="${stringObjectMap.gell_num}">1</span>
+                                                <span th:text="${stringObjectMap.gell_manager}">고정닉</span>
+                                                <span th:switch="${stringObjectMap.gell_status}">
+                                                <span th:case="0">공개</span>
+                                                <span th:case="1">비공개</span>
+                                                <span th:case="2">삭제</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="set_enable" style="display:none;">
+                                        <div class="cont_box">
+                                            <div class="cont_inr">
+                                                <strong class="cont_boxtit">글목록</strong>
+                                                <span class="radiobox small">
+                                                    <input type="radio" id="list_only_member_a" name="list_only_member" value="0" checked="checked">
+                                                    <em class="checkmark"></em>
+                                                    <label for="list_only_member_a">고정닉 공개</label>
+                                                </span>
+                                                <span class="radiobox small">
+                                                    <input type="radio" id="list_only_member_b" name="list_only_member" value="1" >
+                                                    <em class="checkmark"></em>
+                                                    <label for="list_only_member_b">멤버 공개</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_save" onclick="update_list_only_member()"><b>저장</b></button>
+                                            <button type="button" class="set_cancel">취소</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="set_content img_up clear">
+                                    <div class="set_tit">이미지</div>
+                                    <div class="set_disable">
+                                        <div class="cont_box clear">
+                                            <div class="sogaeimg_box profile">
+                                                <div class="sogaeimg_tit">
+                                                    <strong>프로필</strong>
+                                                </div>
+                                                <div class="mintro_imgbox">
+                                                    <img  class="mg_profile_img_preview" src="" style="display:none"/>
+                                                    <span class="frame"></span>
+                                                </div>
+                                            </div>
+                                            <div class="sogaeimg_box jjalbang">
+                                                <div class="sogaeimg_tit">
+                                                    <strong>자동짤방</strong>
+                                                </div>
+                                                <div class="mintro_imgbox">
+                                                    <img class="mg_zzal_img_preview" src="" style="display:none"/>
+                                                    <span class="frame"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_modify" onclick="modify_minor_img('profile');modify_minor_img('zzal');">수정</button>
+                                        </div>
+                                    </div>
+                                    <div class="set_enable" style="display:none;">
+                                        <div class="cont_box clear">
+                                            <div class="cont_inr modify_img clear">
+                                                <div class="sogaeimg_box profile">
+                                                    <form name="fileupload" id="fileupload_profile" method="post" enctype="multipart/form-data" action="//upimg.dcinside.com/mgallery/" data-maxsize="2097152">
+                                                        <div class="sogaeimg_tit">
+                                                            <strong>프로필</strong>
+                                                            <span class="tiptxt">미니 갤러리 상단과 정보 등에 노출되는 대표 이미지입니다.</span>
+                                                        </div>
+                                                        <div class="mintro_imgbox">
+                                                            <img id="profile_img_url" class="mg_profile_img_preview" src="" data-value="" alt="프로필 이미지" style="display:none" data-prev="">
+                                                            <span class="frame"></span>
+                                                        </div>
+                                                        <div class="mintro_img_desc">
+                                                            <p>이미지 최적 사이즈는 가로 1100 pixel, 세로 700 pixel 입니다.</p>
+                                                            <p>jpg, png, 2MB 미만 파일만 등록할 수 있습니다.</p>
+
+                                                            <div class="file_imgupbox">
+                                                                <button type="button" class="btn_lightpurple smaller"><em class="sp_img icon_img_camera"></em>이미지 추가</button>
+                                                                <input type="file" name="files[]" title="이미지 업로드" accept=".jpg,.jpeg,.gif,.png">
+                                                            </div>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="cont_inr modify_img clear">
+                                                <div class="sogaeimg_box jjalbang">
+                                                    <form name="fileupload" id="fileupload_zzal" method="post" enctype="multipart/form-data" action="//upimg.dcinside.com/mgallery/" data-maxsize="2097152">
+                                                        <div class="sogaeimg_tit">
+                                                            <strong>자동 짤방</strong>
+                                                            <span class="tiptxt">미니 갤러리 게시물에 첨부 이미지가 없을 때 노출됩니다.</span>
+                                                        </div>
+                                                        <div class="mintro_imgbox">
+                                                            <img id="zzal_img_url" class="mg_zzal_img_preview" src="" data-value="" alt="자동짤방 이미지" style="display:none" data-prev=""/>
+                                                            <span class="frame"></span>
+                                                        </div>
+                                                        <div class="mintro_img_desc">
+                                                            <p>이미지 최적 사이즈는 가로 550 pixel, 세로 350 pixel 입니다.</p>
+                                                            <p>jpg, png, 2MB 미만 파일만 등록할 수 있습니다.</p>
+
+                                                            <div class="file_imgupbox">
+                                                                <button type="button" class="btn_lightpurple smaller"><em class="sp_img icon_img_camera"></em>이미지 추가</button>
+                                                                <input type="file" name="files[]" title="이미지 업로드" accept=".jpg,.jpeg,.gif,.png">
+                                                            </div>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="fr set_btn">
+                                        <button type="button" class="font_lightblue set_save" onclick="update_gallery_img('gate,profile,zzal')"><b>저장</b></button>
+                                        <button type="button" class="set_cancel">취소</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="set_content relate_word clear">
+                                    <div class="set_tit">연관 갤러리</div>
+
+                                    <div class="set_disable">
+                                        <div class="cont_box">
+                                            <ul class="relate_wordlist result clear"></ul>
+
+                                            <script id="relate_word-tmpl" type="text/x-jquery-tmpl">
+                                            <li class="result_word">${ko_name}</li>
+                                            </script>
+<!--                                            <script type="text/javascript">-->
+<!--                                            $('#relate_word-tmpl').tmpl({"ko_name":"\uc0ac\uc6a9\uc548\ud568"}).appendTo('.relate_wordlist.result');-->
+<!--                                            </script>-->
+
+                                        </div>
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_modify">수정</button>
+                                        </div>
+                                    </div>
+                                    <div class="set_enable" style="display:none;">
+                                        <div class="cont_box">
+
+                                            <div id="use_relate_radio" class="cont_inr" data-use="N">
+                                                <strong class="cont_boxtit">사용여부</strong>
+                                                <span class="radiobox small">
+                                                    <input type="radio" id="use_relation_a" name="use_relation" value="Y"  onclick="$('#use_relate_conf').show();">
+                                                    <em class="checkmark"></em>
+                                                    <label for="use_relation_a">사용함</label>
+                                                </span>
+                                                <span class="radiobox small">
+                                                    <input type="radio" id="use_relation_b" name="use_relation" value="N" checked="checked" onclick="$('#use_relate_conf').hide();">
+                                                    <em class="checkmark"></em>
+                                                    <label for="use_relation_b">사용안함</label>
+                                                </span>
+                                            </div>
+
+                                            <div id="use_relate_conf" style="display:none;;">
+                                                <div class="cont_inr clear">
+                                                    <input class="t_input fl" id="mgallery_relate" type="text" placeholder="등록할 갤러리를 입력해주세요." onkeyup="sch_gallery(this);">
+                                                    <button class="btn_grey smaller btn_add_nopengall" onclick="toggle_layer($('#sch_hide'));"><em class="sp_img icon_add_nopengall"></em>비공개 갤러리 추가</button>
+                                                </div>
+                                                <div class=" m_relate" style="left:0;top:47px;display:none">
+                                                    <div class="word_box">
+                                                        <h3 class="word_tit" style="display:none;">갤러리 검색결과</h3>
+                                                        <ul id="sch_gall_lsit" class="word_list"></ul>
+                                                        <h3 class="word_tit" style="display:none;">마이너 갤러리 검색결과</h3>
+                                                        <ul id="sch_mgall_lsit" class="word_list"></ul>
+                                                        <h3 class="word_tit" style="display:none;">미니 갤러리 검색결과</h3>
+                                                        <ul id="sch_migall_lsit" class="word_list"></ul>
+
+                                                        <script id="sch_gall_list-tmpl" type="text/x-jquery-tmpl">
+                                                        <li><a href="javascript:;" onclick="add_relate('${no}', '${ko_name}', '${gallery_type}')">${ko_name}</a></li>
+                                                        </script>
+
+                                                    </div>
+                                                </div>
+                                                <ul id="modify_relate_list" class="relate_wordlist set clear">
+
+                                                    <li>
+                                                        <span class="gall_name" ></span>
+                                                        <button type="button" class="btn_bword_del" onclick="remove_relate(this)"><span class="blind">차단설정 단어 삭제</span><em class="sp_img icon_bword_del"></em></button>
+                                                    </li>
+                                                    <li>
+                                                        <span class="gall_name" ></span>
+                                                        <button type="button" class="btn_bword_del" onclick="remove_relate(this)"><span class="blind">차단설정 단어 삭제</span><em class="sp_img icon_bword_del"></em></button>
+                                                    </li>
+                                                    <li>
+                                                        <span class="gall_name" ></span>
+                                                        <button type="button" class="btn_bword_del" onclick="remove_relate(this)"><span class="blind">차단설정 단어 삭제</span><em class="sp_img icon_bword_del"></em></button>
+                                                    </li>
+
+                                                </ul>
+                                                <div id="sch_hide" class="pop_wrap type3 lightpurple" style="left:50%;top:53px;margin-left:-232px;display:none">
+                                                    <div class="pop_content pop_add_nopengall">
+                                                        <div class="pop_head bg"><h3>비공개 갤러리 추가</h3></div>
+                                                        <div class="set_cont">
+                                                            <strong class="stit">갤러리 주소 입력</strong>
+                                                            <div class="">
+                                                                <span class="basics_adr">https://gall.dcinside.com/mini/</span>
+                                                                <input type="text" laceholder="ID 전체 입력" class="intxt" value="">
+                                                                <button type="button" class="btn_enroll" onclick="sch_hide_gall();">찾기</button>
+                                                            </div>
+                                                            <p class="tiptxt empty">갤러리 주소를 정확하게 입력해주세요.</p>
+                                                            <p class="tiptxt no" style="display:none">해당 갤러리를 찾을 수 없습니다.</p>
+                                                            <p class="tiptxt ok" style="display:none"><b></b>미니 갤러리</p>
+                                                            <div class="btn_box">
+                                                                <button type="button" class="btn_grey small" onclick="add_relate_hide();">연관 갤러리로 등록</button>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="poply_whiteclose" onclick="sch_hide_close();"><span class="blind">비공개 갤러리 추가 레이어 닫기</span><em class="sp_img icon_whiteclose"></em></button>
+                                                </div>
+                                            </div>
+                                            <p class="tiptxt "><em class="sp_img tip_deco"></em>선택한 갤러리의 연관갤러리로 노출됩니다. (갤러리 선택은 3개까지 가능)</p>
+                                        </div>
+                                        <div class="fr set_btn">
+                                            <button type="button" class="font_lightblue set_save" onclick="update_relate()"><b>저장</b></button>
+                                            <button type="button" class="set_cancel">취소</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </section>
+                <!-- right_content -->
+            </div>
+        </main>
+        <!-- 푸터 -->
+        <!-- 푸터영역 -->
+        <th:block th:replace="~{fragment/footer_fragment::adFooter}"></th:block>
+
+    </div>
+<input type="hidden" id="grade" th:value="${stringObjectMap.gell_grade}">
+</body>
+</html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2023/03/08 // 심규영 // 메인 인덱스 xml 생성 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gcInside.dao.MainDAO">
+    <!-- create -->
+    <!-- read -->
+
+    <!-- 2023/03/22 // 라성준 // 메인 인덱스 갤러리 불러오기 -->
+    <select id="MainIndexNewCommunity" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT
+        gell_num, gell_cate, gell_name, gell_address, gell_main_img, gell_info, gell_manager,
+        gell_grade, gell_status, gell_hit, gell_article_count, gell_rdate, gell_wdate,
+        gell_sanctions_rdate, gell_sanctions_wdate, gell_sanctions_grade
+        FROM gc_gell
+        WHERE gell_rdate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND `gell_grade` = '0'
+        ORDER BY gell_rdate DESC
+        LIMIT #{start}, 10;
+    </select>
+
+    <!-- 2023/03/22 // 라성준 // 메인 인덱스 마이너 갤러리 불러오기 -->
+    <select id="MainIndexNewMgellCommunity" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT
+        gell_num, gell_cate, gell_name, gell_address, gell_main_img, gell_info, gell_manager,
+        gell_grade, gell_status, gell_hit, gell_article_count, gell_rdate, gell_wdate,
+        gell_sanctions_rdate, gell_sanctions_wdate, gell_sanctions_grade
+        FROM gc_gell
+        WHERE gell_rdate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND `gell_grade` = '1'
+        ORDER BY gell_rdate DESC
+        LIMIT #{start}, 10;
+    </select>
+
+    <!-- 2023/03/22 // 라성준 // 메인 인덱스 미니 갤러리 불러오기 -->
+    <select id="MainIndexNewMiniCommunity" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT
+        gell_num, gell_cate, gell_name, gell_address, gell_main_img, gell_info, gell_manager,
+        gell_grade, gell_status, gell_hit, gell_article_count, gell_rdate, gell_wdate,
+        gell_sanctions_rdate, gell_sanctions_wdate, gell_sanctions_grade
+        FROM gc_gell
+        WHERE gell_rdate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND `gell_grade` = '2'
+        ORDER BY gell_rdate DESC
+        LIMIT #{start}, 10;
+    </select>
+
+    <!-- 2023/03/24 // 라성준 // 마이너 갤러리 개수 -->
+    <select id="MainIndexNewCommunityCount" parameterType="map" resultType="int">
+        SELECT COUNT(`gell_num`) FROM `gc_gell`
+        WHERE gell_rdate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND `gell_grade` =
+        <choose>
+            <when test="grade.equals('m')">0</when>
+            <when test="grade.equals('mgall')">1</when>
+            <when test="grade.equals('mini')">2</when>
+            <otherwise>0</otherwise>
+        </choose>
+        ;
+    </select>
+
+    <!-- 2023/03/27 // 라성준 // 메인 인덱스 갤러리 순회 무작위 불러오기 -->
+    <select id="MainIndexRollingGall" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT
+        gell_num, gell_cate, gell_name, gell_address, gell_grade
+        FROM gc_gell
+        WHERE gell_rdate >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+        ORDER BY RAND()
+        LIMIT 0, 10;
+    </select>
+
+    <!-- 2023/04/07 // 김동민 // 개념글(임시로 추천수 1이상)불러오기 (수정 방향: 개념글 개발 -> 오늘 작성된 개념글 불러오기 )-->
+    <select id="selecthotarticle" resultType="kr.co.gcInside.vo.gell_articleVO">
+        SELECT a.gell_name,a.gell_address,  b.*
+        FROM gc_gell AS a
+        JOIN gc_gell_article AS b
+        ON a.gell_num = b.articlel_gell_num where b.article_recommend_count >=1 and a.gell_grade = 0 ORDER BY `article_rdate` desc;
+    </select>
+
+    <!-- 2023/04/07 // 김동민 // 메인 흥한 갤러리 불러오기 -->
+    <!--갤러리명만 출력한것을 gc_gell이랑 비교 후 cnt 가 높은 순으로 정렬  -->
+    <select id="selecthotgall" resultType="kr.co.gcInside.vo.galleryVO">
+        select * from `gc_gell` WHERE `gell_today_rank`>='1' and `gell_grade`='0' ORDER BY `gell_today_rank` ASC;
+    </select>
+    <!-- 2023/04/07 // 김동민 // 갤러리 신설 갤러리 불러오기 -->
+    <!-- BETWEEN 으로 오늘로부터 1주일 범위 행들을 선택 DATE_SUB는 오늘에서 1주일을 뺀 값, 절대값으로 오늘과 gell_rdate의 차를 구해 그 수가 적을 수록 가까운 날짜 -->
+    <select id="selectnewgall" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT *
+        FROM `gc_gell`
+        WHERE `gell_rdate` BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND CURDATE() and `gell_grade`='0'
+        ORDER BY ABS(DATEDIFF(CURDATE(), gell_rdate))
+        LIMIT 5;
+    </select>
+    <!-- 2023/04/07 // 김동민 //  랭킹확인용 오늘의 게시글 개수-->
+    <update id="todayarticlecount">
+        UPDATE `gc_gell`
+        SET `gell_today_article_count` = (
+        SELECT COUNT(*)
+        FROM `gc_gell_article`
+        WHERE DATE(`article_rdate`) = CURDATE()
+        AND `gc_gell`.`gell_num` = `gc_gell_article`.`articlel_gell_num`
+        );
+    </update>
+    <!-- 2023/04/07 // 김동민 // rank칼럼 초기화-->
+    <update id="initrank">
+        UPDATE `gc_gell` SET
+        `gell_today_rank` = NULL , `gell_yesterday_rank` = NULL where `gell_grade`='1';
+    </update>
+    <!-- 2023/04/07 // 김동민 // sql rank초기화 -->
+    <update id ="resetrank">
+        SET @RANK := 0;
+    </update>
+    <!-- 2023/04/07 // 김동민 // 오늘 갤러리 랭크 업데이트-->
+    <update id="updatehotgalltodayrank">
+        UPDATE gc_gell AS gell
+        INNER JOIN (
+        SELECT gell_num, @rank := @rank + 1 AS rank
+        FROM gc_gell
+        WHERE gell_today_article_count > 0 AND gell_grade = '0'
+        ORDER BY gell_today_article_count DESC
+        ) AS ranking
+        ON gell.gell_num = ranking.gell_num
+        SET gell.gell_today_rank = ranking.rank;
+    </update>
+    <!-- 2023/04/07 // 김동민 // 어제 갤러리 랭크 업데이트-->
+    <update id="updatehotgallyesterdayrank">
+        UPDATE `gc_gell` AS `gell`
+        INNER JOIN (
+        SELECT `gc_gell`.`gell_num`, `subquery`.`cnt`, @rank := @rank + 1 AS `rank`
+        FROM `gc_gell`
+        LEFT JOIN (
+        SELECT `articlel_gell_num`, COUNT(*) AS `cnt`
+        FROM `gc_gell_article`
+        WHERE DATE(`article_rdate`) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        GROUP BY `articlel_gell_num`
+        ) AS `subquery`
+        ON `gc_gell`.`gell_num` = `subquery`.`articlel_gell_num`
+        WHERE `gc_gell`.`gell_num` IN (
+        SELECT `articlel_gell_num`
+        FROM `gc_gell_article`
+        WHERE DATE(`article_rdate`) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        GROUP BY `articlel_gell_num`
+        ) AND `gc_gell`.`gell_grade` = '0'
+        ORDER BY `subquery`.`cnt` DESC
+        ) AS `ranking`
+        ON `gell`.`gell_num` = `ranking`.`gell_num`
+        SET `gell`.`gell_yesterday_rank` = `ranking`.`rank`;
+    </update>
+    <!-- 2023/04/07 // 김동민 // 오늘 갤러리 랭크 가져오기-->
+    <select id="mtodayrank" resultType="kr.co.gcInside.vo.galleryVO">
+        select `gell_num`,`gell_today_rank` from `gc_gell` WHERE `gell_today_rank`>='1' and `gell_grade`='0';
+    </select>
+    <!-- 2023/04/07 // 김동민 // 어제 갤러리 랭크 가져오기-->
+    <select id="myesterdayrank" resultType="kr.co.gcInside.vo.galleryVO">
+        select `gell_num`,`gell_yesterday_rank` from `gc_gell` WHERE `gell_yesterday_rank`>='1' and `gell_grade`='0';
+    </select>
+
+    <!-- 2023/04/17 // 심규영 // 전날 게시글 갯수, 댓글 갯수 가져오는 쿼리문 -->
+    <select id="selectYesterdayCount" resultType="map">
+        SELECT
+            (SELECT COUNT(*)
+                FROM `gc_gell_article` AS d
+            WHERE d.`article_rdate` >= STR_TO_DATE(DATE_FORMAT(DATE_ADD(now(), Interval -1 Day), '%Y-%m-%d 00:00:00'), '%Y-%m-%d %T')
+            AND d.`article_rdate` &lt; STR_TO_DATE(DATE_FORMAT(now(), '%Y-%m-%d 00:00:00'), '%Y-%m-%d %T')) AS `article_count`,
+            COUNT(*) AS `comment_count`
+        FROM
+            (SELECT a.`comment_rdate`
+                FROM `gc_gell_comment` AS a
+            UNION ALL
+            SELECT b.`re_comment_rdate`
+                FROM `gc_gell_re_comment` AS b) AS c
+            WHERE c.`comment_rdate` >= STR_TO_DATE(DATE_FORMAT(DATE_ADD(now(), Interval -1 Day), '%Y-%m-%d 00:00:00'), '%Y-%m-%d %T')
+            AND c.`comment_rdate` &lt; STR_TO_DATE(DATE_FORMAT(now(), '%Y-%m-%d 00:00:00'), '%Y-%m-%d %T');
+    </select>
+
+    <!-- 2023/04/18 // 심규영 // 실시간 베스트 게시글 리스트 가져오는 쿼리문 -->
+    <select id="selectRealtimeGetArticleList" resultType="kr.co.gcInside.vo.gell_articleVO">
+
+    </select>
+    
+    <!-- 2023/04/17 // 김동민 // 갤러리 select-->
+    <select id="selectgall" resultType="kr.co.gcInside.vo.galleryVO">
+        select * from `gc_gell` where `gell_grade`='0';
+    </select>
+    <!-- 2023/04/17 // 김동민 // 갤러리 카테고리별 갤러리 갯수-->
+    <select id="gallcate1cnt" resultType="int">
+            select count(*) from `gc_gell` where `gell_grade`='0' and `gell_cate`=#{cate};
+    </select>
+
+    <!-- 2023/04/18 // 전인준 // hit갤러리 게시물 가져오기-->
+    <select id="hitgall" resultType="kr.co.gcInside.vo.gell_articleVO">
+        SELECT * FROM `gc_gell_article` WHERE `articlel_gell_num` = 134 AND `article_status` != 1 ORDER BY `article_rdate` DESC LIMIT 0,12;
+    </select>
+
+    <!-- upload -->
+    <!-- delete -->
+</mapper>

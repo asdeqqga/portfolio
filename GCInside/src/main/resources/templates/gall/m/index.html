@@ -1,0 +1,820 @@
+<!-- 2023/03/14 // 김동민 // 갤러리 index 페이지 화면구현 중 -->
+<!-- 2023/03/15 // 김동민 // 갤러리 index 페이지 화면구현 완료 -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="~{fragment/head_fragment::minorHead}"></th:block>
+</head>
+
+<body>
+<div class="gcwrap">
+
+    <th:block th:replace="~{fragment/header_fragment::minorHeader}"></th:block>
+    <!-- gnb -->
+    <th:block th:replace="~{fragment/gnb_fragment::mainGnb}"></th:block>
+    <!-- 최근 방문 탭 -->
+    <th:block th:replace="~{fragment/gnb_fragment::mainVisit}"></th:block>
+
+    <!-- 메인 -->
+    <main id="container">
+        <article class="clear">
+            <h2 class="blind">상단 컨텐츠 영역</h2>
+            <input type="hidden" name="sub_main" id="sub_main" value="">
+            <section class="left_content">
+                <header class="cont_head">
+                    <h3 class="head_tit"><a href="javascript:void(0);" class="recomTit">개념글</a></h3>
+                </header>
+                <div class="pageing_box gallmain">
+                    <div class="page_num">
+                        <strong class="now_num" id="recomNum">1</strong>/<span class="total_num"
+                                                                               id="recomTotal">3</span>
+                    </div>
+                    <button type="button" class="btn_blueprev " id="recom_prev"><span class="blind">이전</span><em
+                            class="sp_img icon_blueprev"></em></button>
+                    <button type="button" class="btn_bluenext on" id="recom_next"><span class="blind">다음</span><em
+                            class="sp_img icon_bluenext"></em></button>
+                </div>
+                <ul class="cont_list img recomImg">
+                    <th:block th:each="hotarticle,i :${hotarticle}" th:if="${i.index} &lt;= 5">
+                    <li class="bgcover" style="">
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend">
+                                <span class="img_box ">
+                                    <span class="cover" style="background-image:url(https://via.placeholder.com/50x50)"></span>
+                                    <em class="blind">소개 이미지</em>
+                                </span>
+                            <div class="txt_box">
+                                <div class="box">
+                                    <strong class="tit">[[${hotarticle.article_title}]]</strong>
+                                    <div class="info">
+                                        <span>[[${hotarticle.gell_name}]]</span><span>[[${hotarticle.article_rdate.substring(5,10)}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <ul class="cont_list txt recomTxt">
+                    <th:block th:each="hotarticle,i:${hotarticle}" th:if="${i.index >= 6 and i.index <= 15}">
+                    <li style="">
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend" >
+                            <strong>[[|[${hotarticle.gell_name.substring(0,1)}갤]|]] </strong>
+                            [[${hotarticle.article_title}]] </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <ul class="cont_list img recomImg" style="display:none;">
+                    <th:block th:each="hotarticle, i: ${hotarticle}" th:if="${i.index >= 16 and i.index <= 21}">
+                    <li class="bgcover" style="" >
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend">
+                                <span class="img_box ">
+                                    <span class="cover" style="background-image:url(https://via.placeholder.com/50x50)"></span>
+                                    <em class="blind">소개 이미지</em>
+                                </span>
+                            <div class="txt_box">
+                                <div class="box">
+                                    <strong class="tit">[[${hotarticle.article_title}]]</strong>
+                                    <div class="info">
+                                        <span>[[${hotarticle.gell_name}]]</span><span>[[${hotarticle.article_rdate.substring(5,10)}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <ul class="cont_list txt recomTxt" style="display:none;">
+                    <th:block th:each="hotarticle,i:${hotarticle}" th:if="${i.index >= 22 and i.index <= 31}">
+                    <li>
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend" >
+                            <strong>[[|[${hotarticle.gell_name.substring(0,1)}갤]|]] </strong>
+                            [[${hotarticle.article_title}]] </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <ul class="cont_list img recomImg" style="display:none;">
+                    <th:block th:each="hotarticle, i: ${hotarticle}" th:if="${i.index >= 32 and i.index <= 37}">
+                    <li class="bgcover" style="">
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend">
+                                <span class="img_box ">
+                                    <span class="cover" style="background-image:url(https://via.placeholder.com/50x50)"></span>
+                                    <em class="blind">소개 이미지</em>
+                                </span>
+                            <div class="txt_box">
+                                <div class="box">
+                                    <strong class="tit">[[${hotarticle.article_title}]]</strong>
+                                    <div class="info">
+                                        <span>[[${hotarticle.gell_name}]]</span><span>[[${hotarticle.article_rdate.substring(5,10)}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <ul class="cont_list txt recomTxt" style="display:none;">
+                    <th:block th:each="hotarticle,i:${hotarticle}" th:if="${i.index >= 38 and i.index <= 47}">
+                    <li>
+                        <a th:href="@{/m/board/view/(id=${hotarticle.gell_address},no=${hotarticle.article_num})}" class="main_log" section_code="toprecommend" >
+                            <strong>[[|[${hotarticle.gell_name.substring(0,1)}갤]|]] </strong>
+                            [[${hotarticle.article_title}]] </a>
+                    </li>
+                    </th:block>
+                </ul>
+                <div class="hotcate_list clear">
+                    <!-- 흥한 갤러리 -->
+                    <div class="hot_gall_box fl">
+                        <header class="box_head clear">
+                                <span class="fl">
+                                    <em class="blind">핫</em>
+                                    <em class="sp_img icon_hotgall"></em>
+                                </span>
+                            <h3 class="tit fl">흥한 갤러리</h3>
+                            <div class="box_head_right clear">
+                                <button type="button" class="btn_white_round btn_hotgall_allview"
+                                        onclick="showLayer('heung_gall_all_lyr')">전체 순위</button>
+
+                                <!-- 흥한갤 전체 순위 레이어 팝업 -->
+                                <div class="pop_wrap type2" id="heung_gall_all_lyr"
+                                     style="left:50%;top:40px;margin-left:-483px;display:none">
+                                    <div class="pop_content pop_hot_gall" id="heung_list_ul">
+                                        <div class="pop_head dashed">
+                                            <strong>흥한갤 전체 순위</strong>
+                                            <span class="inner_txt">전체 갤러리 순위 중 300위 이내는 흥한갤이 됩니다. (20위 이내는
+                                                    대흥갤)</span>
+                                        </div>
+                                        <ul class="pop_hotmgall_listbox" data-heunggall-page="1">
+                                            <li th:each="hot,i:${hot_gall}" th:if="${i.index}<=99"><a th:href="@{/m/board/lists/(id=${hot.gell_address})}"><span
+                                                    class="num font_red">[[${i.count}]]</span>[[${hot.gell_name}]]</a></li>
+                                        </ul>
+
+                                        <div class="btn_box" data-lyr="heung_gall_all_lyr">
+                                            <button type="button" class="heung_gall_prev btn_prev on"><span
+                                                    class="blind">이전</span><em
+                                                    class="sp_img icon_prev"></em></button>
+                                            <div class="page_num"><strong class="now_num" data-heung-gall-page="1"
+                                                                          data-heung-gall-totalpage="3">1</strong>
+                                                <span>/<span class="total_num">3</span>
+                                                    </span>
+                                            </div>
+                                            <button type="button" class="heung_gall_next btn_next on"><span
+                                                    class="blind">다음</span><em
+                                                    class="sp_img icon_next"></em></button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="under poply_close"
+                                            onclick="showLayer('heung_gall_all_lyr')"><span class="blind">갤러리 전체보기 레이어
+                                                닫기</span><em class="sp_img icon_lyclose"></em></button>
+                                </div>
+                                <div id="hot_rank_thumb"
+                                     style="border-width:0px; border-style:none; width:0px; height:14px; position:absolute; left:0px; top:0px; z-index:4001;">
+                                </div>
+                                <!-- //흥한갤 전체 순위 레이어 팝업 -->
+                                <div class="btn_paging fr" data-page="1">
+                                    <button type="button" class="btn_whiteprev" id="btn_hot_prev"><span
+                                            class="blind">이전</span><em class="sp_img icon_whiteprev"></em></button>
+                                    <button type="button" class="btn_whitenext on" id="btn_hot_next"><span
+                                            class="blind">다음</span><em class="sp_img icon_whitenext"></em></button>
+                                </div>
+                            </div>
+                        </header>
+                        <div class="hot_gall">
+                            <div class="rank_list_box clear hot_gallery_list">
+                                <ol class="rank_list red fl">
+                                    <th:block th:each="hot,i:${hot_gall}" th:if="${i.index}<5">
+                                    <li><a class="" th:href="@{/m/board/lists/(id=${hot.gell_address})}"><span class="rank_num"><em>[[${i.count}]]</em></span><span
+                                            class="rank_txt">[[${hot.gell_name}]]</span></a></li>
+                                    </th:block>
+                                </ol>
+                                <ol class="rank_list red fl">
+                                    <th:block th:each="hot,i:${hot_gall}" th:if="${i.index}>=5 and ${i.index}<10">
+                                    <li><a class="" th:href="@{/m/board/lists/(id=${hot.gell_address})}"><span class="rank_num"><em>[[${i.count}]]</em></span><span
+                                            class="rank_txt">[[${hot.gell_name}]]</span></a></li>
+                                    </th:block>
+                                </ol>
+                                <ol class="rank_list red fl">
+                                    <th:block th:each="hot,i:${hot_gall}" th:if="${i.index}>=10 and ${i.index}<15">
+                                    <li><a class="" th:href="@{/m/board/lists/(id=${hot.gell_address})}"><span class="rank_num"><em>[[${i.count}]]</em></span><span
+                                            class="rank_txt">[[${hot.gell_name}]]</span></a></li>
+                                    </th:block>
+                                </ol>
+
+                                <ol class="rank_list red fl">
+                                    <th:block th:each="hot,i:${hot_gall}" th:if="${i.index}>=15 and ${i.index}<20">
+                                    <li><a class="" th:href="@{/m/board/lists/(id=${hot.gell_address})}"><span class="rank_num"><em>[[${i.count}]]</em></span><span
+                                            class="rank_txt">[[${hot.gell_name}]]</span></a></li>
+                                    </th:block>
+                                </ol>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fr top_cate_wrap">
+                        <div class="cate_wrap">
+                            <div class="cate_box">
+                                <div class="section_cate">
+                                    <h4 class="cate_tit">
+                                        게시판/강좌
+                                        <span class="list_num">(10)</span>
+                                        <button type="button" class="btn_cate_more" onclick="showLayer('Layer43')">
+                                            <span class="blind">더보기</span>
+                                            <em class="sp_img icon_listmore"></em>
+                                        </button>
+                                    </h4>
+                                    <div class="cate">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank">게시물 신고</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">공지사항</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pop_wrap type2" id="Layer43"
+                                         style="left:-371px;top:34px;display:none">
+                                        <div class="pop_content under_catelist">
+                                            <div class="pop_head">
+                                                <strong class="font_blue">게시판/강좌 카테고리</strong>
+                                            </div>
+                                            <ul class="under_listbox">
+                                                <li>
+                                                    <a href="#">유저팁</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">베스트</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">유저라이프</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">게시판 만들기</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">웹사이트 만들기</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">커피 만들기</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">동영상 만들기</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">힛갤 경품</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">신고게시물</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <button type="button" class="under poply_close"
+                                                onclick="showLayer('Layer43')">
+                                            <span class="blind">갤러리 전체보기 레이어 닫기</span>
+                                            <em class="sp_img icon_lyclose"></em>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cate_box" id="newGall">
+                                <div class="section_cate new_gallery">
+                                    <h4 class="cate_tit">
+                                            <span>
+                                                <em class="blind">NEW</em>
+                                                <em class="sp_img icon_newgall"></em>
+                                            </span>
+                                        신설 갤러리
+                                    </h4>
+                                    <div class="cate">
+                                        <ul>
+                                            <li th:each="newgall:${new_gall}">
+                                                <a th:href="@{/m/board/lists/(id=${newgall.gell_address})}">[[${newgall.gell_name}]]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="allandrank clear">
+                    <span class="deco_txt check">
+                                <em class="sp_img"></em>
+                                인기순
+                            </span>
+                    <div class="rank_listwrap clear">
+                        <div class="ranklist_over clear">
+                            <button type="button" class="btn_blue_round">실시간 북적 갤러리</button>
+                            <!-- 실시간 북적 갤러리 한줄 노출 -->
+                            <div class="one_ranklist">
+                                <ol class="rank_list gall">
+                                    <th:block th:each="hot,i:${hot_gall}">
+                                    <li id="rank_no">
+                                        <a id="rank_num" th:href="@{/m/board/lists/(id=${hot.gell_address})}">
+                                            <span class="rank_num"><em>[[${i.count}]]</em></span>
+                                            <span class="rank_txt">[[${hot.gell_name}]]</span>
+                                            <th:block th:each="diff, j : ${rankdiff}">
+                                                <th:block th:if="${hot.gell_num} == ${diff.gell_num}">
+                                            <div>
+                                                <div>
+                                                    <span class="rank_state" th:text="${diff.gell_rank_diff}"></span>
+                                                    <span th:if="${diff.gell_rank_diff}>=1" class="sp_img ico_ranking up"></span>
+                                                    <span th:if="${diff.gell_rank_diff}==0" class="sp_img ico_ranking same"></span>
+                                                    <span th:if="${diff.gell_rank_diff}<=-1" class="sp_img ico_ranking down"></span>
+                                                </div>
+                                            </div>
+                                                </th:block>
+                                            </th:block>
+                                        </a>
+                                    </li>
+                                    </th:block>
+                                </ol>
+                            </div>
+                            <!-- //실시간 북적 갤러리 한줄 노출 -->
+                        </div>
+                        <!-- 실시간 북적 갤러리 1~20위 10개씩 노출 -->
+                        <div id="mainRankList" class="all_ranklist" style="display:none;right:0;top:0">
+                            <div class="box_tit">
+                                <h3 class="tit">갤러리</h3>
+                            </div>
+                            <ol class="rank_list gall g_1" style="display:blcok"><!--1~10위-->
+                                <th:block th:each="hot,i:${hot_gall}" th:if="${i.count} < 11">
+                                <li>
+                                    <a th:href="@{/m/board/lists/(id=${hot.gell_address})}">
+                                        <span class="rank_num"><em>[[${i.count}]]</em></span>
+                                        <span class="rank_txt">[[${hot.gell_name}]]</span>
+                                        <th:block th:each="diff, j : ${rankdiff}">
+                                            <th:block th:if="${hot.gell_num} == ${diff.gell_num}">
+                                        <div>
+                                            <div>
+                                                <span class="rank_state" th:text="${diff.gell_rank_diff}"></span>
+                                                <span th:if="${diff.gell_rank_diff}>=1" class="sp_img ico_ranking up"></span>
+                                                <span th:if="${diff.gell_rank_diff}==0" class="sp_img ico_ranking same"></span>
+                                                <span th:if="${diff.gell_rank_diff}<=-1" class="sp_img ico_ranking down"></span>
+                                            </div>
+                                        </div>
+                                            </th:block>
+                                        </th:block>
+                                    </a>
+                                </li>
+                                </th:block>
+                            </ol>
+                            <ol class="rank_list gall g_2" style="display:none"><!--11~20위-->
+                                <li th:each="hot,i:${hot_gall}" th:if="${i.count} >= 11 and ${i.count} < 21">
+                                    <a th:href="@{/m/board/lists/(id=${hot.gell_address})}">
+                                        <span class="rank_num"><em>[[${i.count}]]</em></span>
+                                        <span class="rank_txt">[[${hot.gell_name}]]</span>
+                                        <div th:each="diff, j : ${rankdiff}">
+                                            <div th:if="${hot.gell_num} == ${diff.gell_num}">
+                                                <span class="rank_state" th:text="${diff.gell_rank_diff}"></span>
+                                                <span th:if="${diff.gell_rank_diff}>=1" class="sp_img ico_ranking up"></span>
+                                                <span th:if="${diff.gell_rank_diff}==0" class="sp_img ico_ranking same"></span>
+                                                <span th:if="${diff.gell_rank_diff}<=-1" class="sp_img ico_ranking down"></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ol>
+                            <div class="box_bottom rank_more" rank_type="high">다음</div>
+                        </div>
+                        <!-- //실시간 북적 갤러리 1~20위 10개씩 리스트 -->
+                    </div>
+                </div>
+            </section>
+            <!-- 오른쪽 -->
+            <section class="right_content">
+                <!-- 로그인 -->
+                <div id="login_box" class="login_box">
+                    <div class="user_info newarea" data-alarmId="">
+                        <strong  th:onclick="|location='@{/member/login}'|" style="cursor: pointer;">로그인해 주세요.</strong>
+                    </div>
+                    <div class="user_option ">
+                            <span><a href="javascript:;" onclick="alert('로그인이 필요합니다.')">MY갤로그<em
+                                    class="sp_loginout icon_visit"></em></a></span>
+                        <span><a href="javascript:;" onclick="alert('로그인이 필요합니다.')">즐겨찾기<span class="blind">리스트
+                                        보기</span></a></span>
+                        <span><a href="javascript:;" onclick="alarmList($('.icon_noti', this), 'new')"><em
+                                class="sp_loginout icon_noti new"></em>알림</a></span><!-- 신규알림시 클래스 new -->
+                    </div>
+                </div>
+                <img th:src="@{/img/new_maban8.png}" alt="">
+            </section>
+        </article>
+        <!-- 갤러리  리스트 -->
+        <article class="category_listwrap">
+            <h2 class="blind">카테고리별 갤러리 리스트</h2>
+            <section class="cate_gall_box">
+                <div id="categ_listwrap" class="cate_wrap">
+                    <div class="cate_bind">
+                        <div class="cate_box">
+                            <div class="section_cate" id="cateList2">
+                                <h4 class="cate_tit">
+                                    스페셜
+                                    <span class="list_num">([[${cate1cnt[28]}]])</span>
+                                    <button type="button" class="btn_cate_more" onclick="showLayer('Layer2')"
+                                            data-lyr="Layer2" data-type="G">
+                                        <span class="blind">더보기</span><em class="sp_img icon_listmore"></em>
+                                    </button>
+                                </h4>
+                                <div class="cate p_1"   >
+                                    <ul>
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '29'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pop_wrap type2" id="Layer2" style="left:-1px;top:34px;display:none">
+                                    <div class="pop_content under_catelist ">
+                                        <div class="pop_head"><strong class="font_blue">스페셜 갤러리 전체보기</strong></div>
+                                        <ul class="under_listbox p_1">
+                                            <li th:each="g:${gall}" th:if="${g.gell_cate} == '29'">
+                                                <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                                   onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button type="button" class="under poply_close"
+                                            onclick="showLayer('Layer2')"><span class="blind">갤러리 전체보기 레이어 닫기</span><em
+                                            class="sp_img icon_lyclose"></em></button>
+                                </div>
+                            </div>
+                            <div class="section_cate" id="cateList46">
+                                <h4 class="cate_tit">디시미디어<span class="list_num">([[${cate1cnt[33]}]])</span>
+                                    <button type="button" class="btn_cate_more" onclick="show_layer('Layer46')"
+                                            data-lyr="Layer46" data-type="G">
+                                        <span class="blind">더보기</span><em class="sp_img icon_listmore"></em>
+                                    </button>
+                                </h4>
+                                <div class="cate p_1"   >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '34'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!--Layer_START46-->
+                                <div class="pop_wrap type2" id="Layer46" style="left:-1px;top:34px;display:none">
+                                    <div class="pop_content under_catelist ">
+                                        <div class="pop_head"><strong class="font_blue">디시미디어 갤러리 전체보기</strong>
+                                        </div>
+                                        <ul class="under_listbox p_1">
+                                            <li th:each="g:${gall}" th:if="${g.gell_cate} == '34'">
+                                                <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                                   onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button type="button" class="under poply_close"
+                                            onclick="showLayer('Layer46')"><span class="blind">갤러리 전체보기 레이어
+                                                닫기</span><em class="sp_img icon_lyclose"></em></button>
+                                </div><!--Layer_END46-->
+                            </div>
+                            <div class="section_cate severalcan" id="cateList26">
+                                <h4 class="cate_tit" data-cate-tab-num="7" data-cate-pos="Layer26"
+                                    data-newgall-pos="0" data-newgall-cnt="0" data-cateno data-cate-gall-count="37"
+                                    data-cate-gall-showcnt="70">
+                                    연예 <span class="list_num">
+                                            ([[${cate1cnt[1]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate p_1"   >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '2'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_1"   >
+                                    <ul> <!--ul-->
+                                        <li>
+                                            <a href="#" target="_parent" onmouseout="gallery_hide();"
+                                               onmousemove="gallery_xy();" onmouseover="gallery_view();">연예인</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate more_uls p_1"   >
+                                    <ul> <!--ul-->
+                                        <li>
+                                            <a href="#" target="_parent" onmouseout="gallery_hide();"
+                                               onmousemove="gallery_xy();" onmouseover="gallery_view();">연예인</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_1"   >
+                                    <ul class="under_listbox"> <!--ul-->
+                                        <li>
+                                            <a href="#" target="_parent" onmouseout="gallery_hide();"
+                                               onmousemove="gallery_xy();" onmouseover="gallery_view();">연예인</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cate_box block_line" id="underList26" style="display:block">
+                            <div class="section_cate severalcan">
+                                <h4 class="cate_tit">
+                                    게임 <span class="list_num">
+                                            ([[${cate1cnt[0]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate p_1" style="height: 238px;">
+                                    <ul>
+                                        <li th:each="g,a:${gall}" th:if="${g.gell_cate} == '1' and ${a.index} <= '9'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_2" style="height: 238px;">
+                                    <ul>
+                                        <li th:each="g,a:${gall}" th:if="${g.gell_cate} == '1' and ${a.index} > '9' and ${a.index} <= '19'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_3" style="height: 238px;">
+                                    <ul>
+                                        <li th:each="g,a:${gall}" th:if="${g.gell_cate} == '1' and ${a.index} > '19' and ${a.index} <= '29'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_4" style="height: 238px;">
+                                    <ul>
+                                        <li th:each="g,a:${gall}" th:if="${g.gell_cate} == '1' and ${a.index} > '29' and ${a.index} <= '39'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="cate p_5" style="height: 238px;">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="cate p_6" style="height: 238px;">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="cate p_7" style="height: 238px;">
+                                    <ul>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="cate_box ">
+                            <div class="section_cate severalcan" id="cateList12">
+                                <h4 class="cate_tit" data-cate-tab-num="2" data-cate-pos="Layer12"
+                                    data-newgall-pos="0" data-newgall-cnt="0" data-cateno="12"
+                                    data-cate-gall-count="18" data-cate-gall-showcnt="16">
+                                    취미 <span class="list_num">
+                                           ([[${cate1cnt[14]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '15' and ${g.count} <= '10'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate more_uls p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '15' and ${g.count} > '10' and ${g.count} <= '20'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_box under_paging">
+                                    <button type="button" class="btn_prev prev_cateList12"
+                                            onclick="prevLayer('cateList12')"><span class="blind">이전</span><em
+                                            class="sp_img icon_prev"></em></button>
+                                    <div class="page_num">
+                                        <strong class="now_num now_cateList12">1</strong>/<span
+                                            class="total_num total_cateList12">1</span>
+                                    </div>
+                                    <button type="button" class="btn_next on next_cateList12"
+                                            onclick="nextLayer('cateList12')"><span class="blind">다음</span><em
+                                            class="sp_img icon_next"></em></button>
+                                </div>
+                            </div>
+                            <div class="section_cate" id="cateList31">
+                                <h4 class="cate_tit">
+                                    해외방송 <span class="list_num">
+                                           ([[${cate1cnt[3]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate more_uls p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '4' and ${g.count} <= '10'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_box under_paging">
+                                    <button type="button" class="btn_prev prev_cateList31"
+                                            onclick="prevLayer('cateList31')"><span class="blind">이전</span><em
+                                            class="sp_img icon_prev"></em></button>
+                                    <div class="page_num">
+                                        <strong class="now_num now_cateList31">1</strong>/<span
+                                            class="total_num total_cateList31">1</span>
+                                    </div>
+                                    <button type="button" class="btn_next on next_cateList31"
+                                            onclick="nextLayer('cateList31')"><span class="blind">다음</span><em
+                                            class="sp_img icon_next"></em></button>
+                                </div>
+                            </div>
+                            <div class="section_cate" id="cateList7">
+                                <h4 class="cate_tit" data-cate-tab-num="4" data-cate-pos="Layer7"
+                                    data-newgall-pos="0" data-newgall-cnt="0" data-cateno="7"
+                                    data-cate-gall-count="5" data-cate-gall-showcnt="8">
+                                    음식 <span class="list_num">
+                                         ([[${cate1cnt[12]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate more_uls p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '13' and ${g.count} <= '10'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_box under_paging">
+                                    <button type="button" class="btn_prev prev_cateList7"
+                                            onclick="prevLayer('cateList7')"><span class="blind">이전</span><em
+                                            class="sp_img icon_prev"></em></button>
+                                    <div class="page_num">
+                                        <strong class="now_num now_cateList7">1</strong>/<span
+                                            class="total_num total_cateList7">1</span>
+                                    </div>
+                                    <button type="button" class="btn_next on next_cateList7"
+                                            onclick="nextLayer('cateList7')"><span class="blind">다음</span><em
+                                            class="sp_img icon_next"></em></button>
+                                </div>
+                            </div>
+                            <div class="section_cate" id="cateList23">
+                                <h4 class="cate_tit">
+                                    음악 <span class="list_num">
+                                            ([[${cate1cnt[18]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate more_uls p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '19' and ${g.count} <= '10'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_box under_paging">
+                                    <button type="button" class="btn_prev prev_cateList23"
+                                            onclick="prevLayer('cateList23')"><span class="blind">이전</span><em
+                                            class="sp_img icon_prev"></em></button>
+                                    <div class="page_num">
+                                        <strong class="now_num now_cateList23">1</strong>/<span
+                                            class="total_num total_cateList23">1</span>
+                                    </div>
+                                    <button type="button" class="btn_next on next_cateList23"
+                                            onclick="nextLayer('cateList23')"><span class="blind">다음</span><em
+                                            class="sp_img icon_next"></em></button>
+                                </div>
+                            </div>
+                            <div class="section_cate severalcan" id="cateList39">
+                                <h4 class="cate_tit">
+                                    만화/애니 <span class="list_num">
+                                            ([[${cate1cnt[16]}]])
+                                        </span>
+                                </h4>
+                                <div class="cate p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '17' and ${g.count} <= '10'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="cate p_1"  >
+                                    <ul> <!--ul-->
+                                        <li th:each="g:${gall}" th:if="${g.gell_cate} == '15' and ${g.count} > '10' and ${g.count} <= '20'">
+                                            <a class="colortxt" th:href="@{/m/board/lists/(id=${g.gell_address})}" target="_parent" onmouseout="thumb_hide();"
+                                               onmouseover="thumb_view(e,'https://via.placeholder.com/50x50');">[[${g.gell_name}]]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="btn_box under_paging">
+                                    <button type="button" class="btn_prev prev_cateList39"
+                                            onclick="prevLayer('cateList39')"><span class="blind">이전</span><em
+                                            class="sp_img icon_prev"></em></button>
+                                    <div class="page_num">
+                                        <strong class="now_num now_cateList39">1</strong>/<span
+                                            class="total_num total_cateList39">1</span>
+                                    </div>
+                                    <button type="button" class="btn_next on next_cateList39"
+                                            onclick="nextLayer('cateList39')"><span class="blind">다음</span><em
+                                            class="sp_img icon_next"></em></button>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+    <!-- 푸터 -->
+    <footer class="gcfoot">
+        <div class="gc_all">
+            <div class="notice">
+                <a href="#"><strong class="tit">공지사항</strong></a>
+                <a href="#"></a>
+            </div>
+            <div class="all_box">
+                <div class="all_list"><!-- 리스트 접기 클래스: close -->
+                    <dl>
+                        <dt><a href="#">갤러리</a></dt>
+                        <dd><a href="#">HIT 갤러리</a></dd>
+                        <dd><a href="#">실시간 베스트 갤러리</a></dd>
+                    </dl>
+                    <dl class="rankingGall">
+                        <dt>인기갤러리</dt>
+                        <dd><a href="#">메이플스토리</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>주요서비스</dt>
+                        <dd><a href="#">갤로그</a></dd>
+                        <dd><a href="#">지시콘</a></dd>
+                    </dl>
+                    <dl class="rollingGall">
+                        <dt><span>갤러리 순회</span></dt>
+                        <dd><a href="#">리그 오브 레전드</a></dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="#" target="_blank">지시뉴스</a></dt>
+                        <dd><a href="#"
+                               target="_blank">지시인터뷰</a></dd>
+                        <dd><a href="#"
+                               target="_blank">지시이슈</a></dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="#">디시미디어</a></dt>
+                        <dd><a href="#">지시이슈</a></dd>
+                    </dl>
+                </div>
+                <div class="all_bottom">
+                    <a href="#" target="_blank"><strong
+                            class="tit">광고안내</strong></a>
+                    <span class="list">
+                            <a href="#" target="_blank"
+                               class="link_info">디스플레이광고</a>
+                            <a href="#" target="_blank"
+                               class="link_info">프로모션</a>
+                            <a href="#" target="_blank"
+                               class="link_info">광고문의</a>
+                        </span>
+                    <span class="bottom_menu">
+                            <a class="menu_link" href="javascript:;" onclick="darkmode()"><em
+                                    class="sp_img icon_sdark"></em>야간모드</a>
+                            <a class="menu_link menu_fold" href="javascript:void(0);" style="display:block"><em
+                                    class="sp_img icon_fold"></em>닫기</a>
+                            <a class="menu_link menu_open" href="javascript:void(0);" style="display:none"><em
+                                    class="sp_img icon_open"></em>열기</a>
+                            <a class="menu_link" href="#top"><em class="sp_img icon_up"></em>맨위로</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="info_policy">
+            <a href="#">회사소개</a>
+            <a href="#">제휴안내</a>
+            <a href="#">광고안내</a>
+            <a href="#">이용약관</a>
+            <a href="#"><b>개인정보처리방침</b></a>
+            <a href="#">청소년보호정책</a>
+        </div>
+
+        <div class="copyright">Copyright ⓒ 2023 gcinside. All rights reserved.</div>
+    </footer>
+
+</div>
+</body>
+
+</html>

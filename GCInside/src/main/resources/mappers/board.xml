@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2023/03/08 // 심규영 // 메인 인덱스 xml 생성 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gcInside.dao.BoardDAO">
+    <!-- create -->
+
+    <!-- 2023/03/22 // 심규영 // 게시물 작성 쿼리문 -->
+    <insert id="insertArticle" parameterType="kr.co.gcInside.vo.gell_articleVO"
+    keyProperty="article_num" useGeneratedKeys="true">
+        INSERT INTO `gc_gell_article` SET
+        `articlel_gell_num` = #{articlel_gell_num},
+        `article_login_status` = #{article_login_status},
+        <if test="article_login_status eq 0">
+            `article_uid` = #{article_uid},
+        </if>
+        <if test="article_login_status eq 1">
+            `article_nonmember_uid` = #{article_nonmember_uid},
+            `article_nonmember_pass` = #{article_nonmember_pass},
+        </if>
+
+        <if test="sub_cate_info eq 1">
+            `article_sub_cate` = #{article_sub_cate},
+        </if>
+        `article_title` = #{article_title},
+        `article_content` = #{article_content},
+        `article_regip` = #{article_regip},
+        `article_rdate` = NOW();
+    </insert>
+
+    <!-- 2023/03/29 // 심규영 // 댓글 작성 쿼리문 -->
+    <insert id="insertComment" parameterType="kr.co.gcInside.vo.Gell_commentVO"
+            keyProperty="comment_num" useGeneratedKeys="true">
+        INSERT INTO `gc_gell_comment` SET
+            `comment_article_num` = #{comment_article_num},
+            `comment_content` = #{comment_content},
+            <if test='comment_login_status == 0'>
+                `comment_login_status` = 0,
+                `comment_uid` = #{comment_uid},
+            </if>
+            <if test='comment_login_status == 1'>
+                `comment_login_status` = 1,
+                `comment_nonmember_name` = #{comment_nonmember_name},
+                `comment_nonmember_password` = #{comment_nonmember_password},
+            </if>
+            `comment_regip` = #{comment_regip},
+            `comment_rdate` = NOW();
+    </insert>
+
+    <!-- 2023/03/29 // 심규영 // 대댓글 작성 쿼리문 -->
+    <insert id="insertReComment" parameterType="kr.co.gcInside.vo.Gell_re_commentVO"
+            keyProperty="re_comment_num" useGeneratedKeys="true">
+        INSERT INTO `gc_gell_re_comment` SET
+            `re_comment_oir_num` = #{re_comment_oir_num},
+            `re_comment_article_num` = #{re_comment_article_num},
+            `re_comment_content` = #{re_comment_content},
+            `re_comment_login_status` = #{re_comment_login_status},
+            <if test="re_comment_login_status eq 0">
+                `re_comment_uid` = #{re_comment_uid},
+            </if>
+            <if test="re_comment_login_status eq 1">
+                `re_comment_nonmember_name` = #{re_comment_nonmember_name},
+                `re_comment_nonmember_password` = #{re_comment_nonmember_password},
+            </if>
+            `re_comment_regip` = #{re_comment_regip},
+            `re_comment_rdate` = NOW();
+    </insert>
+
+    <!-- 2023/04/06 // 심규영 // 추천 로그 남기는 쿼리문 -->
+    <insert id="insertRecommendLog" parameterType="map">
+        INSERT INTO `gc_gell_recommend_log` SET
+            `recommend_article_num` = #{article_num},
+            `recommend_regip` = #{regip},
+            `recommend_rdate` = CURDATE(),
+            `recommend_type` = #{type};
+    </insert>
+
+    <!-- 2023/04/07 // 심규영 // 갤러리 조회수 기록 남기는 쿼리문 -->
+    <insert id="insertGellHitLog">
+        INSERT INTO `gc_gell_hit_log` SET
+            hit_gell_num = #{gell_num},
+            hit_rdate = NOW();
+    </insert>
+
+    <!-- 2023/04/13 // 심규영 // 게시글 파일 미리보기 저장 -->
+    <insert id="insertArticleFile" parameterType="kr.co.gcInside.vo.Gell_fileVO">
+        INSERT INTO `gc_gell_file` SET
+            `file_ori_name` = #{file_ori_name},
+            `file_new_name` = #{file_new_name},
+            `file_rdate` = CURDATE(),
+            `file_url` = #{file_url};
+    </insert>
+
+    <!-- read -->
+
+    <!-- 2023/03/20 // 심규영 // 갤러리 정보 불러오기 -->
+    <!-- 2023/03/23 // 심규영 // 갤러지 정보 불러오기 조건(grade) 추가 -->
+    <!-- 2023/03/27 // 심규영 // 메인 갤러리 정보 불러오기 오류 해결 -->
+    <!-- 2023/03/28 // 심규영 // 메인 갤러리 정보 불러오기 버그 최종 해결 -->
+    <select id="selectGellInfo" resultMap="selectGellInfoResultMap">
+        SELECT
+            a.`gell_num`,
+            a.`gell_name`,
+            a.`gell_address`,
+            a.`gell_main_img`,
+            a.`gell_info`,
+            a.`gell_manager`,
+            a.`gell_grade`,
+            a.`gell_rdate`,
+            a.`gell_article_count`,
+            c.`member_nick`,
+            b.`setting_sub_cate`,
+            b.`setting_recommend_standard`,
+            (SELECT COUNT(relation_num) FROM `gc_gell_relation_gell` WHERE relation_gell_num = a.gell_num) AS relation_count,
+            (SELECT COUNT(relation_num) FROM `gc_gell_relation_gell` WHERE relation_relation_gell_num = a.gell_num) AS re_relation_count
+        FROM `gc_gell` AS a
+        JOIN `gc_gell_setting` AS b ON a.gell_num = b.setting_gell_num
+        JOIN `gc_member` AS c ON a.`gell_manager` = c.`member_uid`
+        WHERE a.gell_address = #{gell_address} AND a.`gell_grade` =
+        <choose>
+            <when test='grade.equals("m")'>0</when>
+            <when test='grade.equals("mgall")'>1</when>
+            <when test='grade.equals("mini")'>2</when>
+        </choose>
+        ;
+    </select>
+
+    <resultMap id="selectGellInfoResultMap" type="kr.co.gcInside.vo.galleryVO">
+        <id column="gell_num" property="gell_num"/>
+        <result column="gell_name" property="gell_name"/>
+        <result column="gell_address" property="gell_address"/>
+        <result column="gell_main_img" property="gell_main_img"/>
+        <result column="gell_info" property="gell_info"/>
+        <result column="gell_manager" property="gell_manager"/>
+        <result column="gell_grade" property="gell_grade"/>
+        <result column="gell_rdate" property="gell_rdate"/>
+        <result column="gell_article_count" property="gell_article_count"/>
+        <result column="member_nick" property="member_nick"/>
+        <result column="relation_count" property="relation_count"/>
+        <result column="re_relation_count" property="re_relation_count"/>
+
+        <association property="gellSettingVO" javaType="kr.co.gcInside.vo.Gell_SettingVO">
+            <result column="setting_sub_cate" property="setting_sub_cate"/>
+            <result column="setting_recommend_standard" property="setting_recommend_standard"/>
+        </association>
+    </resultMap>
+
+    <!-- 2023/03/24 // 심규영 // 갤러리 부매니저 정보 가져오는 쿼리문 -->
+    <select id="selectSubManagerInfo" resultType="kr.co.gcInside.vo.Gell_sub_managerVO">
+        SELECT a.*, b.`member_nick` FROM `gc_gell_sub_manager` AS a
+        JOIN `gc_member` AS b ON a.`sub_manager_uid` = b.`member_uid`
+        WHERE `sub_manager_gell_num` = #{gell_num};
+    </select>
+
+    <!-- 2023/03/23 // 심규영 // 게시글 리스트 가져오는 쿼리문 -->
+    <!-- 2023/04/07 // 심규영 // 게시글 리스트 가져오는 쿼리문 추가 수정 -->
+    <select id="selectArticles" parameterType="map" resultType="kr.co.gcInside.vo.gell_articleVO">
+        SELECT d.*, b.`member_nick` FROM
+            (
+                SELECT
+                    @rownum := @rownum - 1 AS `num`,
+                    a.*
+                FROM
+                    (SELECT @rownum := ${total} + 1) AS r,
+                    (
+                        SELECT * FROM `gc_gell_article`
+                        WHERE `articlel_gell_num` = #{gell_num}
+                    ) AS a
+                ORDER BY `article_num` DESC
+            ) AS d
+        left JOIN `gc_member` AS b ON d.`article_uid` = b.`member_uid`
+        WHERE
+        <choose>
+            <when test='exception_mode == null or exception_mode.equals("")'>`article_status` = '0'</when>
+            <when test='exception_mode.equals("notice")'>`article_status` = '2'</when>
+            <when test='exception_mode.equals("recommend")'>
+                `article_status` = '0'
+                AND
+                `article_recommend_count` >= ${setting_recommend_standard} <!-- 추천글 기준보다 크거나 같다 -->
+                OR
+                `article_recommend_status` = '1' <!-- 관리자에 의해 추천글로 표시된 글 -->
+            </when>
+            <otherwise>`article_status` = '0'</otherwise>
+        </choose>
+        <if test="search_head != null"> <!-- 말머리 값이 있을 경우 -->
+            AND `article_sub_cate`
+            <if test='search_head.equals("0")'>IS null</if> <!-- 일반 -->
+            <if test='!search_head.equals("0")'>= #{search_head}</if> <!-- 그외 -->
+        </if>
+        ORDER BY `article_num` DESC
+        LIMIT ${start},
+        <if test="list_num == null">50</if> <!-- 페이지 당 글 개수 -->
+        <if test="list_num != null">${list_num}</if>
+        ;
+    </select>
+
+    <!-- 2023/03/26 // 심규영 // 해당 게시글 정보 불러오는 쿼리문 -->
+    <select id="selectArticle" parameterType="map" resultType="kr.co.gcInside.vo.gell_articleVO">
+        SELECT a.*, b.`member_nick` FROM `gc_gell_article` AS a
+        left JOIN `gc_member` AS b ON a.`article_uid` = b.`member_uid`
+        WHERE `article_num` = #{no} AND `articlel_gell_num` = #{gell_num};
+    </select>
+
+    <!-- 2023/03/27 // 심규영 // 게시글 내용 불러오는 쿼리문 -->
+    <select id="selectArticleEditor" parameterType="map" resultType="kr.co.gcInside.vo.gell_articleVO">
+        SELECT `article_content` FROM `gc_gell_article` WHERE `article_num` = #{no};
+    </select>
+
+    <!-- 2023/03/23 // 심규영 // 게시글 리스트 총 갯수 가져오는 쿼리문 -->
+    <select id="selectCountArticles" parameterType="map" resultType="int">
+        SELECT COUNT(`article_num`) FROM `gc_gell_article` WHERE
+        `articlel_gell_num` = #{gell_num}
+        <choose>
+            <when test='exception_mode == null or exception_mode.equals("")'>AND `article_status` = '0'</when>
+            <when test='exception_mode.equals("notice")'>AND `article_status` = '2'</when>
+            <when test='exception_mode.equals("recommend")'>
+                AND
+                `article_status` = '0'
+                AND
+                `article_recommend_count` >= ${setting_recommend_standard} <!-- 추천글 기준보다 크거나 같다 -->
+                OR
+                `article_recommend_status` = '1' <!-- 관리자에 의해 추천글로 표시된 글 -->
+            </when>
+            <otherwise>AND `article_status` = '0'</otherwise>
+        </choose>
+        <if test="search_head != null"> <!-- 말머리 값이 있을 경우 -->
+            AND `article_sub_cate`
+            <if test='search_head.equals("0")'>IS null</if> <!-- 일반 -->
+            <if test='!search_head.equals("0")'>= #{search_head}</if> <!-- 그외 -->
+        </if>
+        ;
+    </select>
+
+    <!-- 2023/03/22 // 심규영 // 갤러리 존재 확인 쿼리문 -->
+    <select id="selectGellCheck" resultType="int">
+        SELECT COUNT(`gell_num`) FROM `gc_gell` WHERE `gell_num` = ${gell_num};
+    </select>
+
+    <!-- 2023/03/22 // 심규영 // 유저 정보 존재 확인 쿼리문 -->
+    <!-- 2023/03/27 // 심규영 // 글작성 에러 수정 -->
+    <select id="selectMemberCheck" resultType="int">
+        SELECT COUNT(`member_uid`) FROM `gc_member` WHERE `member_uid` = #{member_uid};
+    </select>
+
+    <!-- 2023/03/22 // 심규영 // 말머리 확인 쿼리문 -->
+    <select id="selectSubCateCheck" resultType="int">
+        SELECT COUNT(`sub_cate_num`) FROM `gc_gell_sub_cate` WHERE `sub_cate_gell_num` = ${gell_num} AND `sub_cate_sequence` = ${sub_cate};
+    </select>
+
+    <!-- 2023/03/27 // 심규영 // 비회원 게시글 비밀번호 체크 쿼리문 -->
+    <select id="selectNonmemberCheck" parameterType="map" resultType="int">
+        SELECT COUNT(`article_num`) FROM `gc_gell_article` WHERE
+            `article_num` = #{no}
+        AND `articlel_gell_num` = #{id}
+        AND `article_login_status` = 1
+        AND `article_nonmember_pass` = #{pass};
+    </select>
+
+    <!-- 2023/03/29 // 심규영 // 게시글 댓글 리스트 불러오는 쿼리문 -->
+    <select id="selectComments" resultType="kr.co.gcInside.vo.Gell_commentVO">
+        (SELECT
+            a.*,
+            b.`member_nick`
+            <if test='type.equals("R")'> <!-- 댓글 많은 순 -->
+            , COALESCE(a.`comment_re_count`, c.`comment_re_count`) AS `re_count`
+            </if>
+        FROM
+            (
+                SELECT
+                    `comment_num`,
+                    NULL AS `re_comment_num`,
+                    `comment_article_num`,
+                    `comment_content`,
+                    `comment_login_status`,
+                    `comment_uid`,
+                    `comment_nonmember_name`,
+                    `comment_nonmember_password`,
+                    `comment_regip`,
+                    `comment_re_count`,
+                    `comment_status`,
+                    `comment_rdate`,
+                    '0' AS `comment_type`
+                FROM `gc_gell_comment`
+                UNION ALL
+                SELECT
+                    `re_comment_oir_num` AS `comment_num`,
+                    `re_comment_num`,
+                    `re_comment_article_num`,
+                    `re_comment_content`,
+                    `re_comment_login_status`,
+                    `re_comment_uid`,
+                    `re_comment_nonmember_name`,
+                    `re_comment_nonmember_password`,
+                    `re_comment_regip`,
+                    NULL AS `comment_re_count`,
+                    `re_comment_status`,
+                    `re_comment_rdate` AS `comment_rdate`,
+                    '1' AS `comment_type`
+                FROM `gc_gell_re_comment`
+            ) AS a
+        left JOIN `gc_member` AS b ON a.`comment_uid` = b.`member_uid`
+        <if test='type.equals("R")'> <!-- 댓글 많은 순 -->
+            LEFT JOIN `gc_gell_comment` AS c ON a.`comment_num` = c.`comment_num`
+        </if>
+        WHERE a.`comment_article_num` = #{article_num} AND a.`comment_status` = 0
+        ORDER BY
+            <if test='type.equals("R")'>`re_count` DESC,`comment_num` DESC,`comment_rdate` ASC</if>
+            <if test='type.equals("D")'>`comment_num` DESC,`comment_rdate` DESC</if>
+            <if test='type.equals("N")'>`comment_num` DESC,`comment_rdate` ASC</if>
+        LIMIT ${start}, 100)
+        <if test='type.equals("D")'> <!-- 등록순 -->
+            ORDER BY `comment_num` ASC,
+        </if>
+        <if test='type.equals("N")'> <!-- 최신순 -->
+            ORDER BY `comment_num` DESC,
+        </if>
+        <if test='type.equals("R")'> <!-- 댓글 많은 순 -->
+            ORDER BY `re_count` DESC, `comment_num` DESC,
+        </if>
+        `comment_rdate` ASC
+        ;
+    </select>
+
+    <!-- 2023/04/11 // 심규영 // 댓글 정보 가져오는 쿼리문 -->
+    <select id="selectCommentInfo" resultType="kr.co.gcInside.vo.Gell_commentVO">
+        SELECT
+            `${re}comment_login_status`,
+            `${re}comment_uid`
+        FROM `gc_gell_${re}comment`
+        WHERE `${re}comment_num` = #{comment_no};
+    </select>
+
+    <!-- 2023/04/06 // 심규영 // 추천 기록 조회 쿼리문 -->
+    <select id="selectCountRecommendLog" parameterType="map" resultType="int">
+        SELECT COUNT(`recommend_article_num`) AS 'count' FROM `gc_gell_recommend_log`
+        WHERE
+            `recommend_article_num`= #{article_num} AND
+            `recommend_regip` = #{regip} AND
+            `recommend_rdate` = CURDATE() AND
+            `recommend_type` = #{type};
+    </select>
+
+    <!-- 2023/04/10 // 심규영 // 댓글 비밀번호 체크 -->
+    <select id="selectCommentPassCheck" parameterType="map" resultType="int">
+        SELECT COUNT('${re}comment_num') FROM `gc_gell_${re}comment`
+        WHERE `${re}comment_num` = #{re_no} AND `${re}comment_nonmember_password` = #{password};
+    </select>
+
+    <!-- 2023/04/17 // 심규영 // 게시글 관련 파일 목록 불러오는 쿼리문 -->
+    <select id="selectFiles" resultType="kr.co.gcInside.vo.Gell_fileVO">
+        SELECT * FROM `gc_gell_file`
+        WHERE `file_article_num` = #{article_num};
+    </select>
+
+    <!-- upload -->
+    <!-- 2023/03/28 // 심규영 // 게시글 수정 쿼리문 -->
+    <update id="updateArticle" parameterType="map">
+        UPDATE `gc_gell_article` SET
+            `article_title` = #{article_title},
+            `article_content` = #{content}
+        WHERE `article_num` = #{modify_no} AND `articlel_gell_num` = #{gell_num}
+        <if test='!modify_uid.equals("")'>AND `article_uid` = #{modify_uid}</if>
+    </update>
+
+    <!-- 2023/03/28 // 심규영 // 게시글 삭제 쿼리문 -->
+    <update id="updateDeleteArticle" parameterType="map">
+        UPDATE `gc_gell_article` SET
+            `article_status` = 1,
+            `article_wdate` = NOW()
+            <if test='delete_uid != null'>
+                , `article_w_uid` = #{delete_uid}
+            </if>
+
+        WHERE `article_num` = #{article_num} AND `articlel_gell_num` = #{gell_num}
+    </update>
+
+    <!--
+    2023/03/29 // 심규영 // 게시글 댓글 수 증가 쿼리문
+    2023/04/11 // 심규영 // 게시글 댓글 수 감소 쿼리문 추가
+    -->
+    <update id="updateArticleCommentCount">
+        UPDATE `gc_gell_article` SET
+        <if test='type.equals("up")'>`article_comment_count` = `article_comment_count` + 1</if>
+        <if test='type.equals("down")'>`article_comment_count` = `article_comment_count` - 1</if>
+        WHERE `article_num` = #{article_num};
+    </update>
+
+    <!-- 2023/03/29 // 심규영 // 댓글의 대댓글 수 증가 쿼리문
+    2023/04/11 // 심규영 // 댓글의 대댓글 수 감소 쿼리문 추가
+    -->
+    <update id="updateCommentReCount">
+        UPDATE `gc_gell_comment` SET
+        <if test='type.equals("up")'>`comment_re_count` = `comment_re_count` + 1</if>
+        <if test='type.equals("down")'>`comment_re_count` = `comment_re_count` - 1</if>
+        WHERE `comment_num` = #{comment_num};
+    </update>
+
+    <!-- 2023/04/05 // 심규영 // 게시글 조회수 증가 쿼리문 -->
+    <update id="updateArticleHitCount">
+        UPDATE `gc_gell_article` SET
+            `article_hit` = `article_hit` +1
+        WHERE `article_num` = #{article_num};
+    </update>
+
+    <!-- 2023/04/06 // 심규영 // 게시글 추천, 비추천 증가 쿼리문 -->
+    <update id="updateArticleRecommendCount" parameterType="map">
+        UPDATE `gc_gell_article` SET
+            <if test='type.equals("0")'> <!-- 추천 일 경우 -->
+                `article_recommend_count` = `article_recommend_count` + 1
+                <if test='login_type.equals("0")'> <!-- 추천 이면서 로그인 상태일 경우 유저 추천 수 도 증가 -->
+                    , `article_member_recommend_count` = `article_member_recommend_count` + 1
+                </if>
+            </if>
+            <if test='type.equals("1")'> <!-- 비추천 일 경우 -->
+                `article_be_recommend` = `article_be_recommend` + 1
+            </if>
+        WHERE `article_num` = #{article_num} AND `articlel_gell_num` = #{articlel_gell_num};
+    </update>
+
+    <!-- 2023/04/07 // 심규영 // 갤러리 조회수 증가 쿼리문 -->
+    <update id="updateGellHitCount">
+        UPDATE `gc_gell` SET
+            `gell_hit` = `gell_hit` +1
+        WHERE `gell_num` = #{gell_num};
+    </update>
+
+    <!-- 2023/04/07 // 심규영 // 갤러리 게시글 개수 증가 쿼리문 -->
+    <update id="updateGellArticleCount">
+        UPDATE `gc_gell` SET
+            `gell_article_count` = `gell_article_count` + 1
+        WHERE `gell_num` = #{gell_num};
+    </update>
+
+    <!-- 2023/04/11 // 심규영 // 댓글 삭제 쿼리문 -->
+    <update id="updateCommentDelete" parameterType="map">
+        UPDATE `gc_gell_${re}comment` SET
+            `${re}comment_status` = 1
+        WHERE
+        <if test='type.equals("cmt")'>
+            `comment_num` = #{comment_no}
+        </if>
+        <if test='type.equals("rcmt")'>
+            `re_comment_num` = #{re_comment_no} AND
+            `re_comment_oir_num` = #{comment_no}
+        </if>
+            AND `comment_article_num` = #{articleNo};
+    </update>
+
+    <!-- 2023/04/14 // 심규영 // 게시글 작성시 관련 파일 설정 쿼리문 -->
+    <update id="updateFileArticleNum">
+        UPDATE `gc_gell_file` SET
+            `file_article_num` = #{article_num}
+        WHERE `file_url` LIKE #{url};
+    </update>
+
+    <!-- 2023/0414 // 심규영 // 게시글 작성시 관련 파일 설정 전 null 변경 쿼리문-->
+    <update id="updateFileArticleNumNull">
+        UPDATE `gc_gell_file` SET
+            `file_article_num` = null
+        WHERE `file_article_num` = #{article_num};
+    </update>
+
+    <!-- 2023/04/14 // 심규영 // 게시글 작성시 첨부 파일 개수 업데이트 -->
+    <update id="updateArticleFileCount">
+        UPDATE `gc_gell_article` SET
+            `article_file` = #{count}
+        WHERE `article_num` = #{aritcle_num};
+    </update>
+
+    <!-- delete -->
+</mapper>

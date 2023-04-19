@@ -1,0 +1,60 @@
+<!-- 2023/03/07 //라성준 -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!-- 헤드 영역 -->
+<th:block th:replace="~{fragment/head_fragment::termsHead}"></th:block>
+</head>
+
+<body>
+<!--스킵 내비게이션-->
+<div class="skip">
+    <!-- <a href="#pagemenu"><span>페이지메뉴 영역 바로가기</span></a>
+    <a href="#contbox"><span>본문 영역 바로가기</span></a> -->
+</div>
+<!-- //스킵 내비게이션-->
+<div id="top" class="width868 policy_wrap">
+
+<!-- 헤더영역 -->
+<th:block th:replace="~{fragment/header_fragment::termsHeader}"></th:block>
+
+      <main id="container">
+        <div class="content">
+          <article>
+            <h2 class="blind">청소년보호정책</h2>
+            <section id="pagemenu">
+              <h2 class="blind">페이지 메뉴</h2>
+              <ul class="page_menu three clear"> 
+                <li><a href="/GCInside/terms/policy" class="pmenu">이용약관</a></li>
+                <li><a href="/GCInside/terms/privacy" class="pmenu">개인정보처리방침</a></li>
+                <li><a href="/GCInside/terms/youth_policy" class="pmenu on">청소년보호정책</a></li>
+              </ul>
+            </section>
+            <section>
+                <div class="cont_head">
+                  <h3 class="head_tit">청소년보호정책</h3>
+                </div>
+                <div id="contbox" class="con_box brd">
+                  <!-- 지시인사이드 개인정보처리방침 -->
+                  <div class="policy_cont" th:utext="${data.term_content}">
+
+                      <!-- 이용약관 -->
+
+                  <!-- //지시인사이드 개인정보처리방침 -->
+                </div>
+                </div>
+              </section>
+    
+            </article>
+          </div>
+        </main>
+    <!-- 하단 -->
+
+    <!-- 푸터영역 -->
+    <th:block th:replace="~{fragment/footer_fragment::termsFooter}"></th:block>
+
+    <!-- //하단 -->
+    </div>
+  
+  </body>
+  </html>

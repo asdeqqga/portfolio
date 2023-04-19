@@ -1,0 +1,120 @@
+<!-- 2023/03/06 // 라성준 // -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragment/head_fragment::adHead}"></th:block>
+    <script type="text/javascript">
+      var lnbMenu=0, lnbSubMenu=1, gMenu=1;
+    </script>
+</head>
+<body>
+    <!--스킵 내비게이션-->
+  <div class="skip">
+    <a href="#gmenu_wrap"><span>메뉴바로가기</span></a>
+    <a href="#left_wrap"><span>서브 메뉴바로가기</span></a>
+    <a href="#right_wrap"><span>본문영역 바로가가기</span></a>
+  </div>
+  <!--//스킵 내비게이션-->
+  <div class="gc_adwrap sub">
+    <!-- GNB -->
+    <div id="gmenu_wrap">
+      <div class="gnb_bar">
+  <div class="inner clear">
+    <h1 class="gc_logo">
+      <a th:href="@{/index}">
+        <img th:src="@{/img/gcin_logo3.png}" alt="디시인사이드">
+      </a>
+    </h1>
+    <div style="position:relative;float:right">
+      <ul class="gmenu_list clear">
+        <li><a th:href="@{/ad/index}">광고안내</a></li>
+        <li><a th:href="@{/ad/ad_guide_pc2}"> 광고 상품 및 가이드</a></li>
+        <li><a th:href="@{#@gmail.com}">광고문의</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- //GNB -->
+
+<!-- 본문 -->
+<main id="container">
+  <div class="content clear">
+    <div id="left_wrap" class="fl">
+
+      <th:block th:replace="~{fragment/aside_fragment::adAside}"></th:block>
+
+                  </div>
+                  <div id="right_wrap" class="right_content">
+                    <section>
+                      <h2 class="cont_head">Moblie web + PC 광고</h2>
+                      <div class="cont_body pm_ad">
+                        <h3 class="cont_tit">리스트 상단</h3>
+                        <div class="table_box">
+                          <table class="ad_table type1">
+                            <caption>광고상품 정보</caption>
+                            <colgroup>
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                            </colgroup>
+                            <thead>
+                              <tr>
+                                <th scope="col">배너 사이즈(px)</th>
+                                <th scope="col">가격 (CPM)</th>
+                                <th scope="col">평균 CTR</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <p>
+                                    <strong>PC : </strong>
+                                    <span>840 * 243 / 840 * 90</span>
+                                  </p>
+                                  <p>
+                                    <strong>Mobile : </strong>
+                                    <span>640 * 200</span>
+                                  </p>
+                                </td>
+                                <td>
+                                  <b>2,900</b>
+                                  
+                                </td>
+                                <td>
+                                  <b>0.38%</b>
+                                </td>
+                              </tr>
+                            </tbody>
+          
+                          </table>
+                        </div>
+          
+                        <div class="cont_banbox">
+                          <img th:src="@{/img/npm_ad_img1.png}" alt="">
+                        </div>
+                        <div class="infotxt_box">
+                          <ol>
+                            <li>1) 이미지 용량 : 300KB 이하</li>
+                            <li>2) 배너에 배치한 이미지가 좌/우로 잘리지 않도록 주의하여 제작</li>
+                            <li>3) Mobile Web은 소재 사이즈의 1/2크기인 320*100으로 노출됨</li>
+                            <li>4) 840 * 243 / 840 * 90 배너는 PC 리스트 상단에 노출되는 광고로, 확장형 배너(840 * 243) 노출 이후 X 버튼 클릭 시 축소됨</li>  
+                            <li>5) 840 * 243 / 840 * 90 배너는 같은 랜딩으로 이동(각자 이동 불가)</li>  
+                            <li>6) PC 확장형 840 * 243 배너의 우측 상단에 X 버튼이 삽입되므로 텍스트와 겹치지 않도록 제작</li>  
+                            <li>7) html 소재 불가</li>  
+                          </ol>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </main>
+              <!-- //본문 -->
+              <!-- 하단 -->
+    <footer th:replace="~{fragment/footer_fragment::adFooter}"></footer>
+              <!-- //하단 -->
+            </div>
+          </body>
+          
+          </html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2023/03/16 // 김동민 // 마이너 xml 생성 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gcInside.dao.MinorDAO">
+    <!-- insert -->
+    <!-- 2023/03/16 // 김동민 // 마이너 갤러리 생성(uid 바꿔야함) -->
+    <insert id="creategall" parameterType="kr.co.gcInside.vo.CreateVO">
+        INSERT INTO `gc_admin_gell_create_approve` SET
+        `gell_create_rdate`   = NOW(),
+        `gell_create_status`  = '0',
+        `gell_create_uid`     = #{gell_create_uid},
+        `gell_create_name`    = #{gell_create_name},
+        `gell_create_intro`   = #{gell_create_intro},
+        `gell_create_cate`    = #{gell_cate2},
+        `gell_create_address` = #{gell_create_address},
+        `gell_create_reason`  = #{gell_create_reason};
+    </insert>
+    
+    <!-- select -->
+    <!-- 2023/03/16 // 김동민 // 마이너 갤러리 생성시 카테고리 선택 -->
+    <select id="selectcate2" resultType="kr.co.gcInside.vo.CreateVO">
+        SELECT * from `gc_gell_cate2`;
+    </select>
+    <!-- 2023/03/16 // 김동민 // 마이너 갤러리 생성약관 -->
+    <select id="selectminorterms" resultType="kr.co.gcInside.vo.TermsVO">
+        SELECT * FROM `gc_terms`;
+    </select>
+    <!-- 2023/03/21 // 김동민 // validation -->
+    <select id="countBygellname" resultType="int" parameterType="String">
+        select count(*) from `gc_gell` where gell_name = #{gell_create_name};
+    </select>
+    <!-- 2023/03/22 // 김동민 // validation -->
+    <select id="countBygelladdress" resultType="int" parameterType="String">
+        select count(*) from `gc_gell` where gell_address = #{gell_create_address};
+    </select>
+    <!-- 2023/03/23 // 김동민 // 마이너 갤러리 index 흥한 갤러리 select -->
+    <!--갤러리명만 출력한것을 gc_gell이랑 비교 후 cnt 가 높은 순으로 정렬  -->
+    <select id="selecthotmgall" resultType="kr.co.gcInside.vo.galleryVO">
+        select * from `gc_gell` WHERE `gell_today_rank`>='1' and `gell_grade`='1' ORDER BY `gell_today_rank` ASC;
+    </select>
+    <!-- 2023/03/23 // 김동민 // 마이너 갤러리 index 신설 갤러리 select -->
+    <!-- BETWEEN 으로 오늘로부터 1주일 범위 행들을 선택 DATE_SUB는 오늘에서 1주일을 뺀 값, 절대값으로 오늘과 gell_rdate의 차를 구해 그 수가 적을 수록 가까운 날짜 -->
+    <select id="selectnewmgall" resultType="kr.co.gcInside.vo.galleryVO">
+        SELECT *
+        FROM `gc_gell`
+        WHERE `gell_rdate` BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND CURDATE() and `gell_grade`='1'
+        ORDER BY ABS(DATEDIFF(CURDATE(), gell_rdate))
+        LIMIT 12;
+    </select>
+    <!-- 랭킹확인용 오늘의 게시글 개수 -->
+    <update id="todayarticlecount">
+        UPDATE `gc_gell`
+        SET `gell_today_article_count` = (
+        SELECT COUNT(*)
+        FROM `gc_gell_article`
+            WHERE DATE(`article_rdate`) = CURDATE()
+        AND `gc_gell`.`gell_num` = `gc_gell_article`.`articlel_gell_num`
+        );
+    </update>
+    <update id="initrank">
+        UPDATE `gc_gell` SET
+        `gell_today_rank` = NULL , `gell_yesterday_rank` = NULL where `gell_grade`='1';
+    </update>
+   <update id ="resetrank">
+       SET @RANK := 0;
+   </update>
+    <update id="updatehotmgalltodayrank">
+        UPDATE gc_gell AS gell
+        INNER JOIN (
+        SELECT gell_num, @rank := @rank + 1 AS rank
+        FROM gc_gell
+        WHERE gell_today_article_count > 0 AND gell_grade = '1'
+        ORDER BY gell_today_article_count DESC
+        ) AS ranking
+        ON gell.gell_num = ranking.gell_num
+        SET gell.gell_today_rank = ranking.rank;
+    </update>
+
+    <update id="updatehotmgallyesterdayrank">
+        UPDATE `gc_gell` AS `gell`
+        INNER JOIN (
+        SELECT `gc_gell`.`gell_num`, `subquery`.`cnt`, @rank := @rank + 1 AS `rank`
+        FROM `gc_gell`
+        LEFT JOIN (
+        SELECT `articlel_gell_num`, COUNT(*) AS `cnt`
+        FROM `gc_gell_article`
+        WHERE DATE(`article_rdate`) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        GROUP BY `articlel_gell_num`
+        ) AS `subquery`
+        ON `gc_gell`.`gell_num` = `subquery`.`articlel_gell_num`
+        WHERE `gc_gell`.`gell_num` IN (
+        SELECT `articlel_gell_num`
+        FROM `gc_gell_article`
+        WHERE DATE(`article_rdate`) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        GROUP BY `articlel_gell_num`
+        ) AND `gc_gell`.`gell_grade` = '1'
+        ORDER BY `subquery`.`cnt` DESC
+        ) AS `ranking`
+        ON `gell`.`gell_num` = `ranking`.`gell_num`
+        SET `gell`.`gell_yesterday_rank` = `ranking`.`rank`;
+    </update>
+
+    <select id="mgalltodayrank" resultType="kr.co.gcInside.vo.galleryVO">
+        select `gell_num`,`gell_today_rank` from `gc_gell` WHERE `gell_today_rank`>='1' and `gell_grade`='1';
+    </select>
+
+    <select id="mgallyesterdayrank" resultType="kr.co.gcInside.vo.galleryVO">
+        select `gell_num`,`gell_yesterday_rank` from `gc_gell` WHERE `gell_yesterday_rank`>='1' and `gell_grade`='1';
+    </select>
+
+    <!-- 2023/03/27 // 김동민 // 마이너 갤러리 select-->
+    <select id="selectminorgall" resultType="kr.co.gcInside.vo.galleryVO">
+        select * from `gc_gell` where `gell_grade`='1';
+    </select>
+    <!-- 2023/03/28 // 김동민 // 마이너 갤러리 카테고리별 갤러리 갯수-->
+    <select id="mgallcate1cnt" resultType="int">
+        select count(*) from `gc_gell` where `gell_grade`='1' and `gell_cate`=#{cate};
+    </select>
+</mapper>

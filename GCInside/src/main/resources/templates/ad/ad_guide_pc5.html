@@ -1,0 +1,114 @@
+<!-- 2023/03/06 // 라성준 // -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragment/head_fragment::adHead}"></th:block>
+    <script type="text/javascript">
+      var lnbMenu=3, lnbSubMenu=0, gMenu=1;
+    </script>
+</head>
+<body>
+    <!--스킵 내비게이션-->
+  <div class="skip">
+    <a href="#gmenu_wrap"><span>메뉴바로가기</span></a>
+    <a href="#left_wrap"><span>서브 메뉴바로가기</span></a>
+    <a href="#right_wrap"><span>본문영역 바로가가기</span></a>
+  </div>
+  <!--//스킵 내비게이션-->
+  <div class="gc_adwrap sub">
+    <!-- GNB -->
+    <div id="gmenu_wrap">
+      <div class="gnb_bar">
+  <div class="inner clear">
+    <h1 class="gc_logo">
+      <a th:href="@{/index}">
+        <img th:src="@{/img/gcin_logo3.png}" alt="디시인사이드">
+      </a>
+    </h1>
+    <div style="position:relative;float:right">
+      <ul class="gmenu_list clear">
+        <li><a th:href="@{/ad/index}">광고안내</a></li>
+        <li><a th:href="@{/ad/ad_guide_pc2}"> 광고 상품 및 가이드</a></li>
+        <li><a th:href="@{#@gmail.com}">광고문의</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- //GNB -->
+
+<!-- 본문 -->
+<main id="container">
+  <div class="content clear">
+    <div id="left_wrap" class="fl">
+
+      <th:block th:replace="~{fragment/aside_fragment::adAside}"></th:block>
+      
+                  </div>
+                  <div id="right_wrap" class="right_content">
+                    <section>
+                      <h2 class="cont_head">PC 광고</h2>
+                      <div class="cont_body pm_ad">
+                        <h3 class="cont_tit">로고 배너</h3>
+                        <div class="table_box">
+                          <table class="ad_table type1">
+                            <caption>광고상품 정보</caption>
+                            <colgroup>
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                            </colgroup>
+                            <thead>
+                              <tr>
+                                <th scope="col">배너 사이즈(px)</th>
+                                <th scope="col">가격</th>
+                                <th scope="col">평균 CTR</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <p>
+                                    <b>300 * 100</b>
+                                  </p>
+                                </td>
+                                <td>
+                                  <b>7일 350만 원</b>
+                                  <b>(직 광고주 기준)</b>
+                                </td>
+                                <td>
+                                  <b>0.05%</b>
+                                </td>
+                              </tr>
+                            </tbody>
+          
+                          </table>
+                        </div>
+          
+                        <div class="cont_banbox">
+                          <img th:src="@{/img/npc_ad_img5.png}" alt="">
+                        </div>
+                        <div class="infotxt_box">
+                          <ol>
+                            <li>1) 이미지 용량 : 300KB 이하</li>
+                            <li>2) 지시 로고 포함하여 일반/야간 2가지 버전으로 제작(진행 시, 로고 샘플 전달 예정)</li>
+                            <li>3) 소재는 최대 2개까지 롤링 가능</li>
+                            <li>4) 7일 단위 (최소 7일 or 최대14일) 진행 가능</li>
+                            <li>5) 로고배너를 포함하여 (직 광고주 기준) 최소 1,500만 원 이상 진행하는 건에 한해 진행 가능</li>
+                            <li>6) PC 메인 페이지(https://www.gcinside.com)에만 단독 노출</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </main>
+              <!-- //본문 -->
+              <!-- 하단 -->
+    <footer th:replace="~{fragment/footer_fragment::adFooter}"></footer>
+              <!-- //하단 -->
+            </div>
+          </body>
+          
+          </html>

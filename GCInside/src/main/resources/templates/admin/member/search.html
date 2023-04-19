@@ -1,0 +1,130 @@
+<!-- 2023/03/10 // 심규영 // 공통 fragment 작업 -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragment/head_fragment::adminHead}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/popup.css}">
+    <script type="text/javascript" th:src="@{/js/admin/member.js}"></script>
+</head>
+<body>
+    <div class="gcwrap">
+        <header th:replace="~{fragment/header_fragment::adminHeader}"></header>
+
+        <main id="container" class="admin_main">
+            <div class="main_content">
+                <div class="admin_left">
+                    <!-- 사이드 gnb -->
+                    <aside th:replace="~{fragment/gnb_fragment::adminGnb}"></aside>
+                </div>
+
+                <div class="admin_right">
+                    <section class="admin_main_info">
+                        <div class="cont_head"><h2>회원 목록</h2></div>
+                        <div class="admin_info_content">
+                            <div class="member_search_box">
+                                <form th:action="@{/admin/member/search}" method="get">
+                                <select class="admin_member_search_select_box" id="member_search_select_box" name="searchType">
+                                    <option value="id">아이디</option>
+                                    <option value="nickname">닉네임</option>
+                                    <option value="point">포인트</option>
+                                    <option value="regdate">가입날짜</option>
+                                    <option value="email">이메일</option>
+                                </select>
+                                <input type="text" id="input-box" name="keyword" placeholder="닉네임 검색">
+                                <button type="submit" class="btn_lightgreen" id="submit-button">검색</button>
+                            </div>
+                            <table class="admin_table admin_member_list">
+                                <colgroup>
+                                    <col style="width: 14.2%;">
+                                    <col style="width: 14.2%;">
+                                    <col style="width: 24.2%;">
+                                    <col style="width: 14.2%;">
+                                    <col style="width: 14.2%;">
+                                    <col style="width: 14.2%;">
+                                    <col style="width: 14.8%;">
+                                </colgroup>
+                                <tr>
+                                    <th>아이디</th>
+                                    <th>이메일</th>
+                                    <th>닉네임</th>
+                                    <th>포인트</th>
+                                    <th>아이피</th>
+                                    <th>가입날짜</th>
+                                    <th>관리</th>
+                                </tr>
+                                <tr th:each="member : ${search}">
+                                    <td th:text="${member.member_uid}">hong123</td>
+                                    <td th:text="${member.member_email}">human@gmail.com</td>
+                                    <td th:text="${member.member_nick}">홍길동</td>
+                                    <td th:text="${#numbers.formatInteger(member.member_point, 1, 'COMMA')}">5,500</td>
+                                    <td th:text="${member.member_regip}">000.000.0.0</td>
+                                    <td th:text="${member.member_rdate.substring(2, 11)}">0000-00-00</td>
+                                    <td><a href="javascript:;" onclick="popup_open()">[설정]</a></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- 페이징 -->
+                        <div class="admin_pageing">
+                        <span class="admin_pageing_prev" th:if="${pagingDTO.currentPage > 1}">
+                            <a th:href="@{${'/admin/member/search'}(pg=${pagingDTO.currentPage - 1}, searchType=${searchType}, keyword=${keyword})}">
+                                &lt; 이전
+                            </a>
+                        </span>
+
+                            <span class="admin_pageing_num">
+                            <th:block th:each="pageNumber : ${#numbers.sequence(1, pagingDTO.lastPage)}"
+                                      th:classappend="${pageNumber} == ${pagingDTO.currentPage} ? 'on'">
+                                <span th:if="${pageNumber} == ${pagingDTO.currentPage}"
+                                      th:text="${pageNumber}">
+                                </span>
+                                <a th:if="${pageNumber} != ${pagingDTO.currentPage}"
+                                   th:href="@{${'/admin/member/search'}(pg=${pageNumber}, searchType=${searchType}, keyword=${keyword})}"
+                                   th:text="${pageNumber}">
+                                </a>
+                            </th:block>
+                        </span>
+
+                            <span class="admin_pageing_next" th:if="${pagingDTO.currentPage < pagingDTO.lastPage}">
+                            <a th:href="@{${'/admin/member/search'}(pg=${pagingDTO.currentPage + 1}, searchType=${searchType}, keyword=${keyword})}">
+                                다음 &gt;
+                            </a>
+                        </span>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{fragment/footer_fragment::adminFooter}"></footer>
+    </div>
+
+    <!-- 회원 설정 팝업 창 -->
+    <div class="admin pop_back" style="display: none;">
+        <div class="admin pop_wrap gray1px">
+            <div class="admin_member pop_content">
+                <div class="admin cont_head"><h3>ㅇㅇ 유저 설정</h3><a href="javascript:;" onclick="popup_close()">X</a></div>
+                <ul class="admin_member_popup_gnb">
+                    <li class="on" data-value="basic" >기본</li>
+                    <li data-value="activity">활동 내역</li>
+                    <li data-value="article">글 작성 내역</li>
+                    <li data-value="comment">댓글 작성 내역</li>
+                    <li data-value="point">포인트 내역</li>
+                    <li data-value=""></li>
+                    <li data-value="sanctions">제재</li>
+                    <li data-value="secession">탈퇴</li>
+                </ul>
+                <div class="admin_member main_content basic">basic</div>
+                <div class="admin_member main_content activity" style="display: none;">activity</div>
+                <div class="admin_member main_content article" style="display: none;">article</div>
+                <div class="admin_member main_content comment" style="display: none;">comment</div>
+                <div class="admin_member main_content point" style="display: none;">point</div>
+                <div class="admin_member main_content sanctions" style="display: none;">sanctions</div>
+                <div class="admin_member main_content secession" style="display: none;">secession</div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!-- 2023/03/13 // 심규영 // 작업 이어받기 -->
+<!DOCTYPE html>
+<html lang="ko"
+	  xmlns:th="http://www.thymeleaf.org">
+<head> 
+	<th:block th:replace="~{fragment/head_fragment::boardHead}"></th:block>
+	<title>[[${galleryVO.gell_name}]] 갤러리 - 커뮤니티 포털 사이트</title>
+</head>
+<body>
+	<div class="gcwrap width1160 list_wrap">
+		<!-- 헤더 -->
+		<header th:replace="~{fragment/header_fragment::boardHeader}"></header>
+
+		<!-- gnb -->
+        <div class="gnb_bar" th:replace="~{fragment/gnb_fragment::mainGnb}"></div>
+
+		<!-- 최근 방문 탭 -->
+        <div class="visit_bookmark" th:replace="~{fragment/gnb_fragment::mainVisit}"></div>
+
+		<!-- 메인 -->
+		<div class="wrap_inner">
+			<main id="container" class="listwrap clear">
+				<section class="left_content">
+					<!-- 갤러리명 -->
+					<header>
+						<div class="page_head clear">
+							<div class="fl clear">
+								<!-- 비공개 표시 -->
+								<div th:if="${galleryVO.gell_status} == 1" class="lock">
+									<em class="sp_img icon_minilock"></em>
+								</div>
+
+								<h2>
+									<a th:href="|@{/}${grade}/board/lists?id=${galleryVO.gell_address}|">
+										[[${galleryVO.gell_name}]] 갤러리
+										<!--마이너 갤 아이콘-->
+										<div class="pagehead_titicon mgall sp_img" th:if="${galleryVO.gell_grade} == 1"></div>
+										<!-- 미니 갤 아이콘 -->
+										<div class="pagehead_titicon ngall sp_img" th:if="${galleryVO.gell_grade} == 2"></div>
+									</a>
+								</h2>
+
+								<!-- 즐겨찾기 표시 // 유저 로그인 중에만 표시 -->
+								<div th:if="${authorize.isAuthenticated}" class="favorite">
+									<!-- 즐겨찾기 추가 했을경우 class에 on 추가 -->
+									<button type="button">
+										<em class="sp_img icon_favorite"></em>
+									</button>
+								</div>
+
+								<!-- 관리자 유저 또는 부매니저 일 경우 관리자 페이지 버튼 표시 -->
+								<th:block th:if="${authorize.isAuthenticated}">
+									<div th:if="${galleryVO.gell_manager eq user.member_uid || UserSubManagerCheck}" class="useradmin_go" style="margin-left:7px;">
+										<button type="button" class="sp_img btn_useradmin_go" onclick="goAdmin($(this))" th:data-id="${galleryVO.gell_address}"></button>
+									</div>
+								</th:block>
+							</div>
+							<div class="fr gall_issuebox">
+								<div class="bundle">
+									<button type="button" class="issue_setting" id="issue_setting" onclick="setting_layer()">설정</button>
+									<!-- 팝업 -->
+									<div class="pop_tipbox setting_list" id="setting_list" style="display: none;">
+										<div class="inner">
+											<ul>
+												<li><button type="button">차단 설정</button></li>
+												<li><button type="button">머리말·꼬리말 설정</button></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<button type="button" class="relate" th:data-num="${galleryVO.gell_num}" onclick="open_relation($(this))">
+									<!-- 새로운 연관 갤러리 있을 경우 display:none 제거 됨 -->
+									<span class="new" style="display: none;"><em class="sp_img icon_new"></em></span>
+									연관 갤러리([[${galleryVO.relation_count}]]/[[${galleryVO.re_relation_count}]])
+									<em class="sp_img icon_relate_more"></em>
+								</button
+								><button type="button" class="adr_copy">
+									갤주소 복사
+								</button
+								><button type="button" class="gall_useinfo">
+									이용안내
+								</button>
+							</div>
+							<!-- 차단 설정 팝업 -->
+							<div class="pop_wrap type3" id="user_block" style="left:50%;top:-2px;margin-left:-199px;display: none;"></div>
+							<!-- 말머리, 꼬리말 설정 팝업 -->
+							<div class="pop_wrap type3" id="headTail_lay" style="left:50%;top:44px;margin-left:-222px;display: none;"></div>
+							<!-- 연관 갤러리 팝업 -->
+							<div id="relation_popup" class="pop_wrap type3" style="left: 145px;top:44px;display: none;" loaded="1">
+								<div class="pop_content relation_wrap">
+									<div class="pop_head"><h3>연관 갤러리</h3></div>
+									<!-- 현갤러리 -> 타 갤러리 -->
+									<div class="following inner">
+										<div class="pop_info">
+											<b>[[${galleryVO.gell_name}]] 갤러리 <em class="sp_img icon_right_arrow"></em> 타 갤러리(<span class="count">[[${galleryVO.relation_count}]]</span>)</b>
+											<p>이 갤러리가 연관 갤러리로 추가한 갤러리</p>
+										</div>
+										<ul class="list_box clear">
+											<li><a href="#">갤러리 이름</a></li>
+										</ul>
+										<div class="btn_box">
+											<button type="button" class="btn_prev"><em class="sp_img icon_prev"></em></button>
+											<div class="page_num">
+												<strong class="now_num">1</strong>/<span class="total_num">1</span>
+											</div>
+											<button type="button" class="btn_next"><em class="sp_img icon_next"></em></button>
+										</div>
+									</div>
+									<!-- 타 갤러리 -> 현갤러리 -->
+									<div class="follower inner">
+										<div class="pop_info">
+											<b>타 갤러리 <em class="sp_img icon_right_arrow"></em> [[${galleryVO.gell_name}]] 갤러리(<span class="count">[[${galleryVO.re_relation_count}]]</span>)</b>
+											<p>이 갤러리를 연관 갤러리로 추가한 갤러리</p>
+										</div>
+										<ul class="list_box clear">
+											<li><a href="#">갤러리 이름</a></li>
+										</ul>
+										<div class="btn_box">
+											<button type="button" class="btn_prev"><em class="sp_img icon_prev"></em></button>
+											<div class="page_num">
+												<strong class="now_num">1</strong>/<span class="total_num">1</span>
+											</div>
+											<button type="button" class="btn_next"><em class="sp_img icon_next"></em></button>
+										</div>
+									</div>
+								</div>
+								<button type="button" class="poply_bgblueclose" onclick="open_relation($(this))"><em class="sp_img icon_bgblueclose"></em></button>
+							</div>
+						</div>
+					</header>
+
+					<!-- 갤러리 설명 -->
+					<article>
+						<div class="issue_wrap">
+							<div class="issuebox gallery_box">
+								<!-- 상단 이슈 박스 -->
+								<div class="issue_contentbox clear">
+
+									<th:block th:if="${galleryVO.gell_grade} == 1">
+										<!-- 마이너 갤러리 설명 -->
+										<div class="minor_intro_box clear">
+											<div class="img_contbox clear">
+												<div class="bgcover">
+													<a href="javascript:;" class="mintro_imgbox in_img">
+														<span th:if="${galleryVO.gell_main_img} != null" class="cover" style="background-image: url('이미지주소');"></span>
+													</a>
+												</div>
+												<div class="mintro_txtbox">
+													<p class="mintro_txt" th:text="${galleryVO.gell_info}">갤러리 소개글</p>
+												</div>
+											</div>
+											<div class="info_contbox">
+												<div class="info_cont">
+													<strong class="tit">매니저</strong>
+													<p class="cont">
+														<span class="mng_nick" th:text="|${galleryVO.member_nick}(${galleryVO.gell_manager})|">닉네임(아이디)</span>
+													</p>
+												</div>
+												<div class="info_cont">
+													<strong class="tit">부매니저</strong>
+													<p class="cont">
+														<span class="mng_nick" th:each="vo:${gellSubManagerVOS}">[[${vo.member_nick}]](<span th:title="${vo.sub_manager_uid}"
+															><th:block th:if="${#strings.length(vo.sub_manager_uid)} > 8">[[${#strings.substring(vo.sub_manager_uid,0,7)}]]...</th:block
+															><th:block th:if="${#strings.length(vo.sub_manager_uid)} <= 8">[[${vo.sub_manager_uid}]]</th:block></span>)</span>
+													</p>
+												</div>
+												<div class="info_cont">
+													<strong class="tit">개설일</strong>
+													<p class="cont" th:text="${#strings.substring(galleryVO.gell_rdate, 0, 10)}">0000-00-00</p>
+												</div>
+												<div class="info_cont">
+													<button type="button" class="font_lightblue btn_mngadmin_report">갤러리 관리 내역</button>
+												</div>
+											</div>
+										</div>
+										<div class="minor_ranking_box">
+											<!-- 안흥한갤 -->
+											<div class="ranking" style="display:block">
+												<div class="ranking_tit normal"></div>
+												<div class="rank_img">
+													<span class="outsied_img"></span>
+												</div>
+											</div>
+											<!-- 흥한갤 설명 버튼 -->
+											<button type="button" class="btn_mgall_dcp"><em class="icon_mgall_dcp sp_img"></em></button>
+											<!-- 흥한갤 설명 레이어 -->
+											<div id="hot_tip_pop" class="pop_tipbox minor_tip" style="right:15px;top:15px;display:none;">
+												<div class="inner hotgall_tip">
+													<div class="minor_tip_txt">
+														<p>전체 마이너 갤러리 순위 중 300위 이내는 흥한갤이 됩니다.</p>
+														<span style="display: block;padding-left:6px;">(20위 이내는 대흥갤)</span>
+														<p>흥한갤은 순위 갱신 시 변동될 수 있습니다.</p>
+													</div>
+													<button type="button" class="btn_tipclose"><em class="sp_img icon_tipclose"></em></button>
+												</div>
+											</div>
+											<!-- 흥한갤 랭킹 버튼 -->
+											<button type="button" class="btn_hotall_list sp_img"></button>
+											<!-- 흥한갤 랭킹 팝업 창 -->
+											<div id="hot_rank_pop" class="pop_wrap type2" style="right:-1px;top:139px;display:none;">
+												<div class="pop_content pop_hot_mgall">
+													<div class="pop_head dashed">
+														<strong>흥한갤 전체 순위</strong>
+														<span class="inner_txt">전체 마이너 갤러리 순위 중 300위 이내는 흥한갤이 됩니다. (20위 이내는 대흥갤)</span>
+													</div>
+													<div class="hot_rank_list_wrap">
+														<ul class="pop_hotmgall_listbox" id="heung_list_ul" style data-heunggall-page="1">
+															<!-- 20위 까지는 빨간색 -->
+															<li><a href="#"><span class="num font_red">1.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">2.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">3.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">4.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">5.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">6.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">7.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">8.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">9.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">10.</span> 갤러리이름</a></li>
+															<li><a href="#"><span class="num font_red">11.</span> 갤러리이름</a></li>
+														</ul>
+														<ul class="pop_hotmgall_listbox" id="heung_list_ul_2" data-heunggall-page="2" style="display:none;"></ul>
+														<ul class="pop_hotmgall_listbox" id="heung_list_ul_3" data-heunggall-page="3" style="display:none;"></ul>
+														<div class="btn_box" data-lyr="hot_rank_pop">
+															<button type="button" class="heung_gall_prev btn_prev on"><em class="sp_img icon_prev"></em></button>
+															<div class="page_num">
+																<strong class="now_num" data-heung-gall-page="1" data-heung-gall-totalpage="3">1</strong>
+																<span>/</span>
+																<span class="total_num">3</span>
+															</div>
+															<button type="button" class="heung_gall_prev btn_next on"><em class="sp_img icon_next"></em></button>
+														</div>
+													</div>
+												</div>
+												<button type="button" class="under poply_close"><em class="sp_img icon_lyclose"></em></button>
+											</div>
+										</div>
+									</th:block>
+
+								</div>
+
+								<!-- 하단 배너 -->
+								<div class="banner_box">
+									<a href="#" target="_blank">
+										<img src="https://via.placeholder.com/840x90" width="840" height="90" style="border:0px;">
+									</a>
+								</div>
+							</div>
+						</div>
+					</article>
+
+					<!-- 갤러리 내용-->
+					<article>
+						<!-- 상단 탭 -->
+						<div class="list_array_option clear">
+							<div class="array_tab left_box">
+								<button type="button" class="on" th:data-grade="${grade}" th:data-id="${galleryVO.gell_address}" onclick="writeAndModifyPageHref($(this))">전체글</button>
+								<button type="button" th:if="${galleryVO.gell_num ne 135}" th:data-grade="${grade}" th:data-id="${galleryVO.gell_address}" data-exception_mode="recommend" onclick="articlePageHerf($(this))">개념글</button>
+								<button type="button" th:data-grade="${grade}" th:data-id="${galleryVO.gell_address}" data-exception_mode="notice" onclick="articlePageHerf($(this))">공지</button>
+							</div>
+							<div class="center_box">
+								<div class="inner">
+									<ul th:if="${galleryVO.gellSettingVO.setting_sub_cate} == 1">
+										<li><a href="javascript:;" class="on">전체</a></li>
+										<li><a href="javascript:;">일반</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="right_box">
+								<div class="output_array clear" style="display: block;">
+									<div class="select_box array_num">
+										<div class="select_area" onclick="layerOpen($('#listSizeLayer'))"><a href="javascript:;"><!--현재 페이지 개수-->50개<em class="sp_img icon_option_more"></em></a></div>
+										<ul id="listSizeLayer" class="option_box" style="left:0;top:20px;display:none;">
+											<li><a href="javascript:;">30개</a></li>
+											<li><a href="javascript:;">50개</a></li>
+											<li><a href="javascript:;">100개</a></li>
+										</ul>
+									</div>
+									<div class="switch_btnbox">
+										&nbsp;
+										<a class="btn_write txt" th:href="|@{/}${grade}/board/write/?id=${galleryVO.gell_address}|">글쓰기</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 게시물 목록 -->
+						<th:block th:replace="~{fragment/board_fragment::aritcle_list(${galleryVO},${grade},${pagingDTO})}"></th:block>
+
+					</article>
+				</section>
+				
+				<section class="right_content">
+					<!-- 로그인 창 -->
+					<div>
+						<!-- 로그인 정보 -->
+						<div id="login_box" class="login_box" >
+							<div class="user_info newarea">
+								<th:block th:if="${authorize.isAnonymous}">
+									<strong  th:onclick="|location='@{/member/login}'|" style="cursor: pointer;">로그인해 주세요.</strong>
+								</th:block>
+
+								<th:block th:if="${authorize.isAuthenticated}">
+									<!-- a 클릭시 유저 설정으로 이동 -->
+									<a href="javascript:;" class="fl">
+										<strong class="nickname in"><em th:text="${user.member_nick}"></em></strong>님
+									</a>
+									<!-- 클릭시 갤로그로 이동 -->
+									<strong class="writer_nikcon" th:title="|${#strings.substring(user.member_uid,0, #strings.length(user.member_uid) - 2)}** : 갤로그로 이동합니다.|" style="cursor:pointer" onclick>
+										<img th:src="@{/img/nik.gif}" width="12" height="11" style="margin-left:2px;">
+									</strong>
+									<!-- 클릭시 유저 설정 으로 이동 -->
+									<a href="javascript:;"><span class="sp_img user_infogo"></span></a>
+									<!-- 로그아웃 버튼 -->
+									<div class="logout_boxbtn fr">
+										<button type="button" onclick="location.href='/GCInside/logout'" class="btn_inout logout">로그아웃</button>
+									</div>
+
+								</th:block>
+							</div>
+
+							<div class="user_option">
+								<span>
+									<a href="javascript:;" onclick="alert('로그인이 필요합니다.')">MY갤로그<em class="sp_loginout icon_visit"></em></a>
+								</span>
+								<span><a href="javascript:;" onclick="alert('로그인이 필요합니다.')">즐겨찾기</a></span>
+							</div>
+						</div>
+					</div>
+
+					<!-- 오른쪽 배너 -->
+					<!-- width 300px 고정 최소 높이 250px -->
+					<div class="rightbanner1">
+						<a href="javascript:;"><img src="https://via.placeholder.com/300x500" alt=""></a>
+					</div>
+
+					<!-- 실시간 베스트 -->
+					<article>
+						<div class="content_box r_timebest">
+							<header>
+								<h3 class="tit"><a href="#">실시간 베스트</a></h3>
+								<div class="pageing_box">
+									<div class="page_num">
+										<strong class="now_num realtimeNum">1</strong>/<span class="total_num realtimeTotal">8</span>
+									</div>
+									<button type="button" class="btn_blueprev" id="realtime_prev"><em class="sp_img icon_blueprev"></em></button>
+									<button type="button" class="btn_bluenext on" id="realtime_next"><em class="sp_img icon_bluenext"></em></button>
+								</div>
+							</header>
+
+							<div class="rcont_imgtxt_box">
+								<div class="img">
+									<div class="rcontimg_box">
+										<a href="#" class="inner logClass">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+									<div class="rcontimg_box">
+										<a href="#" class="inner logClass">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+									<div class="rcontimg_box" style="display:none;">
+										<a href="#" class="inner logClass">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+									<div class="rcontimg_box" style="display:none;">
+										<a href="#" class="inner logClass">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+								</div>
+								<ul class="txt">
+									<li><a href="#">글 제목</a></li>
+									<li><a href="#">글 제목</a></li>
+									<li><a href="#">글 제목</a></li>
+									<li><a href="#">글 제목</a></li>
+									<li><a href="#">글 제목</a></li>
+								</ul>
+							</div>
+						</div>
+					</article>
+
+					<!-- 뉴스/ 겔시미디어 / 겔시 이슈-->
+					<article>
+						<div class="content_box r_dcmedia">
+							<header>
+								<h3 class="tit newsTab on"><a href="jvascript:;">뉴스</a></h3>
+								<h3 class="tit mediaTab"><a href="javascript:;">지시미디어</a></h3>
+								<h3 class="tit issueTab"><a href="javascript:;">지시이슈</a></h3>
+								<div class="pageing_box">
+									<div class="page_num">
+										<strong class="now_num" id="newsNum">1</strong>/<span class="total_num" id="newsTotal">2</span>
+									</div>
+									<button type="button" class="btn_blueprev" id="news_prev"><em class="sp_img icon_blueprev"></em></button>
+									<button type="button" class="btn_bluenext on" id="news_next"><em class="sp_img icon_bluenext"></em></button>
+								</div>
+							</header>
+							<div class="rcont_imgtxt_box r_news_box">
+								<div class="img">
+									<div class="rcontimg_box">
+										<a href="#" class="inner logClass" target="_blank">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+									<div class="rcontimg_box">
+										<a href="#" class="inner logClass" target="_blank">
+											<span class="img_box">
+												<img src="https://via.placeholder.com/132x132" style="position:relative;top:-17px;">
+											</span>
+											<div class="txt_box">
+												<strong>글 제목</strong>
+											</div>
+										</a>
+									</div>
+								</div>
+								<ul class="txt">
+									<li><a href="#" class="logClass" target="_blank">글 제목</a></li>
+									<li><a href="#" class="logClass" target="_blank">글 제목</a></li>
+									<li><a href="#" class="logClass" target="_blank">글 제목</a></li>
+								</ul>
+							</div>
+							<div class="rcont_imgtxt_box r_media_box" style="display: none;"></div>
+							<div class="rcont_imgtxt_box dcissue r_issue_box" style="display: none;"></div>
+						</div>
+					</article>
+					
+					<!-- 개념글 -->
+					<article>
+						<div class="content_box r_recommend">
+							<header>
+								<h3 class="tit"><a href="#">개념글<span class="sub">[<em>바이크</em>]</span></a></h3>
+								<div class="pageing_box">
+									<div class="page_num">
+										<strong class="now_num">1</strong>/<span class="total_num">18</span>
+									</div>
+									<button type="button" class="btn_blueprev"><em class="sp_img icon_blueprev"></em></button>
+									<button type="button" class="btn_bluenext on"><em class="sp_img icon_bluenext"></em></button>
+								</div>
+							</header>
+
+							<ul id="rightRecom" class="rcont_list">
+								<li><a href="#" class="logClass">글 제목</a></li>
+								<li><a href="#" class="logClass">글 제목</a></li>
+								<li><a href="#" class="logClass">글 제목</a></li>
+								<li><a href="#" class="logClass">글 제목</a></li>
+								<li><a href="#" class="logClass">글 제목</a></li>
+								<li><a href="#" class="logClass">글 제목</a></li>
+							</ul>
+						</div>
+					</article>
+
+					<!-- 힛글 -->
+					<article>
+						<div id="rightHit" class="content_box r_hit">
+							<header>
+								<h3 class="tit on"><a href="javascript:;">힛(HIT)<span class="new"><em class="sp_img icon_new"></em></span></a></h3>
+								<h3 class="tit"></h3>
+								<div class="pageing_box">
+									<div class="page_num">
+										<strong class="now_num">1</strong>/<span class="total_num">3</span>
+									</div>
+									<button type="button" class="btn_blueprev"><em class="sp_img icon_blueprev"></em></button>
+									<button type="button" class="btn_bluenext on"><em class="sp_img icon_bluenext"></em></button>
+								</div>
+							</header>
+							<div class="rcont_hit rhit_list">
+								<a href="#" class="inner logClass">
+									<span class="img_box">
+										<img src="https://via.placeholder.com/270x200">
+										<!-- n년전 -->
+										<span class="sp_years icon_years" style="display: none;"></span>
+									</span>
+									<div class="txt_box">
+										<strong>글 제목</strong>
+										<p class="hit_day">작성일 0000-00-00</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					</article>
+
+					<!-- 디시 위키 -->
+					<article>
+						<div class="content_box r_wiki">
+							<header>
+								<h3 class="tit"><a href="#" class="wiki_main"> 디시위키</a></h3>
+								<a href="#" class="wiki_random_go">심심할 땐 랜덤<em class="sp_img icon_go"></em></a>
+							</header>
+							<div class="rcont_wiki">
+								<div class="wk_content">
+									<div class="wk_box">
+										<a href="#" class="logClass">
+											<strong class="tit"><span>#주제</span></strong>
+											<p class="wk_txt">내용</p>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</article>
+					
+				</section>
+			</main>
+		</div>
+
+		<!-- 푸터 -->
+        <footer class="gcfoot" th:replace="~{fragment/footer_fragment::boardFooter}"></footer>
+	</div>
+<input type="hidden" id="grade" th:value="${grade}">
+<input type="hidden" id="id" th:value="${galleryVO.gell_address}">
+<input type="hidden" id="gell_name" th:value="${galleryVO.gell_name}">
+</body>
+</html>

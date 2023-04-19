@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 헤드영역 -->
+    <th:block th:replace="~{fragment/head_fragment::managementHead}"></th:block>
+</head>
+<body>
+    <div class="gcwrap">
+
+        <!-- 헤더 -->
+        <header class="gcheader typea">
+
+            <div class="gchead">
+                <!-- 메인 로고 -->
+                <th:block th:replace="~{fragment/header_fragment::minorHeader}"></th:block>
+
+                <div class="wrap_search">
+                    <!-- 갤러리 통합검색-->
+                    <form>
+                        <fieldset>
+                            <div class="top_search clear">
+                                <div class="inner_search">
+                                    <input class="in_keyword" type="text" name="search"
+                                    placeholder="갤러리 & 통합검색" autocomplete="off"
+                                    title="검색어 입력">
+                                </div>
+                                <button class="sp_main bnt_search"></button>
+                                <!-- 검색어 자동 완성 기능 -->
+                                <div class="auto_wordwrap" style="left: 0px; top: 46px; display: none;"></div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <!-- gnb -->
+        <div th:replace="~{fragment/gnb_fragment::mainGnb}"></div>
+
+        <!-- 최근 방문 탭 -->
+        <div class="visit_bookmark">
+            <div class="newvisit_history vst">
+                <h3 class="tit vst_title 1_div_style">최근 방문</h3>
+                <h3 class="tit bookmark_title f_div_style" style="display: none;">최근 방문</h3>
+                <button type="button" class="btn_open">
+                    <em class="sp_img icon_listmore"></em>
+                </button>
+                <button type="button" class="bnt_visit_prev">
+                    <em class="sp_img icon_prev"></em>
+                </button>
+                <div class="newvisit_box"></div>
+                <button type="button" class="bnt_visit_next">
+                    <em class="sp_img icon_next"></em>
+                </button>
+                <button type="button" class="bnt_newvisit_more">전체</button>
+                <!-- 최근방문 / 즐겨찾기 레이어 -->
+                <div class="pop_wrap gray1px" style="left: 0px; top: 37px; display: none;"></div>
+            </div>
+        </div>
+
+        <main id="container" class="minor_admin">
+            <!-- 갤러리명 타이틀바 ~ 이용안내 -->
+
+            <header>
+                <div class="page_head clear">
+                    <div class="fl clear">
+
+                        <div class="lock"><em class="sp_img icon_minilock"></em><span class="blind">비공개</span></div>
+
+                        <h2>
+                            <a th:href="|@{/}mgall/board/lists?id=${stringObjectMap.gell_address}|">
+                                <span th:text="|${stringObjectMap.gell_name} 갤러리|">ㅇㅇㅇ  갤러리</span>
+                                <div class="pagehead_titicon ngall sp_img">
+                                    <span class="blind">미니</span>
+                                </div>
+                            </a>
+                        </h2>
+
+
+                        <div class="useradmin_go">
+                            <button type="button" class="sp_img btn_useradmin_go" onclick="location.href='/gall/management';"><span class="blind">관리</span></button>
+                        </div>
+
+                    </div>
+                </div>
+            </header>  
+            <div class="minor_uadmin_wrap clear">
+                <!-- left_content -->
+                <script type="text/javascript">
+                    var mgall_id = 'qivreg';
+                    var mgall_block = 'N';
+                </script>
+
+                <section id="left_cont_wrap"  class="left_content">
+                    <h2 class="blind">왼쪽 컨텐츠 영역</h2>
+                    <ul class="minor_uadmin_menu">
+                        <li><a th:href="|@{/}gall/management/index?id=${stringObjectMap.gell_address}|" class="">기본 설정</a></li>
+                        <li><a th:href="|@{/}gall/management/gallery?id=${stringObjectMap.gell_address}|" class="">갤러리 설정</a></li>
+                        <li><a th:href="|@{/}gall/management/block?id=${stringObjectMap.gell_address}|" class="on">차단 목록 </a></li>
+                        <li><a th:href="|@{/}gall/management/delete?id=${stringObjectMap.gell_address}|" class="">삭제 목록 </a></li>
+                        <li><a th:href="|@{/}gall/management/submanager?id=${stringObjectMap.gell_address}|" class="">부매니저</a></li>
+                        <li><a href="#" onclick="alert('매니저 위임은 개설일 기준으로 7일 이후 가능합니다.');return false;" class=>매니저 위임</a></li>
+                        <li><a th:href="|@{/}gall/management/report?id=${stringObjectMap.gell_address}|" class="">관리 기록</a></li>
+                    </ul>
+
+
+                </section>      
+                <!-- right_content -->
+                <section id="right_cont_wrap" class="right_content">
+                    <h2 class="blind">오른쪽 컨텐츠 영역</h2>
+                    <div class="minor_uadmin_setting">
+                        <div class="minor_uadmin_top clear">
+                            <div class="fl sort">
+                                <span>차단 상태</span>
+                                <div class="select_box array_latest">
+                                    <div class="select_area">전체<span class="blind">정렬 기준선택</span><em class="sp_img icon_option_more"></em></div>
+                                    <ul class="option_box" style="left:-1px;top:19px;display:none">
+                                        <li data-value="A" onclick="location.replace('?id=qivreg&s=A')">전체</li>
+                                        <li data-value="B" onclick="location.replace('?id=qivreg&s=B')">차단 중</li>
+                                        <li data-value="R" onclick="location.replace('?id=qivreg&s=R')">해제됨</li>
+                                    </ul>
+                                </div>
+                                <script>ul_selectric($('#right_cont_wrap .minor_uadmin_setting .select_box'), 'sch_status', '');</script>
+                            </div>
+                            <div class="fr" id="public_set_div">
+                                <button type="button" class="btn_grey smaller" onclick="get_public_set('block')">차단 내역 공개 설정</button>
+                            </div>
+                        </div>
+                        <!-- 차단 목록 -->
+                        <table class="minor_block_list">
+                            <caption>차단 리스트</caption>
+                            <colgroup>
+                                <col style="width:8%">
+                                <col style="width:18%">
+                                <col>
+                                <col style="width:15%">
+                                <col style="width:8%">
+                                <col style="width:9%">
+                                <col style="width:12%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">번호</th>
+                                    <th scope="col">닉네임(식별 코드/IP)</th>
+                                    <th scope="col">게시글 / 댓글</th>
+                                    <th scope="col">사유</th>
+                                    <th scope="col">차단 기간</th>
+                                    <th scope="col">처리일</th>
+                                    <th scope="col">차단 상태</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td class="blocknum">1</td>
+                                    <td class="blocknik">
+                                        <p>놔줘스크립트</p>
+                                        <p>(navascript)</p>
+                                    </td>
+                                    <td class="blockcontent"><span><em>게시글</em>완장 자냐? 달린다</span></td>
+                                    <td class="blockreason">분탕</td>
+                                    <td class="blocktime">1시간</td>
+                                    <td class="blockday">
+                                        <span class="block_date">2023.03.14</span>
+                                        <div class="pop_tipbox tip_bg_grey" style="left:25px;top:34px;display:none">
+                                            <div class="inner tip_blockday">
+                                                <p class="block_time">처리 시간 : 17:40:49</p>
+                                                <p class="block_conduct">처리자 : 관리자아이디(gwanli5656)</p>
+                                            </div>
+                                            <button type="button" class="btn_tipclose"><span class="blind">닫기</span><em class="sp_img icon_tipclose"></em></button>
+                                        </div>
+                                    </td>
+                                    <td class="blockstate txtbtn">
+
+                                        차단 중 <button type="button" class="btn_lightpurple_round small" onclick="set_avoid(this, 'R', '157857')">해제</button>
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <!-- //차단 목록 -->
+
+
+                        <div class="other_content">
+                        <p class="tiptxt "><em class="sp_img tip_deco"></em>해제된 목록은 30일 동안 보관됩니다.</p>
+                        </div>
+                    </div>
+                </section>
+                <!-- right_content -->        
+            </div>
+        </main>
+        <!-- 푸터 -->
+        <!-- 푸터영역 -->
+        <th:block th:replace="~{fragment/footer_fragment::adFooter}"></th:block>
+
+    </div>
+</body>
+</html>

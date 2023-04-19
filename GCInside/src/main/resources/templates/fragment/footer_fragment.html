@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <!-- 2023/03/09 // 라성준 // terms 약관 페이지 푸터 -->
+    <!-- 2023/03/18 // 심규영 // 경로 수정 및 board/write 공통 사용 -->
+    <footer class="gcfoot" th:fragment="termsFooter">
+      <div class="info_policy">
+        <a th:href="@{/company/index}">회사소개</a>
+        <a th:href="@{/company/index#alliance}">제휴안내</a>
+        <a th:href="@{/ad/index}">광고안내</a>
+        <a th:href="@{/terms/policy}">이용약관</a>
+        <a th:href="@{/terms/privacy}"><b>개인정보처리방침</b></a>
+        <a th:href="@{/terms/youth_policy}">청소년보호정책</a>
+      </div>
+      <div class="copyright">Copyright ⓒ 2023 - 2023 gcinside. All rights reserved.</div>
+  </footer>
+
+    <!-- 2023/03/09 // 라성준 // 메인 index 페이지 푸터 -->
+    <footer th:fragment="mainFooter">
+    <footer class="gcfoot">
+      <div class="gc_all">
+        <div class="notice">
+          <a href="#"><strong class="tit">공지사항</strong></a>
+          <a href="#"></a>
+        </div>
+
+        <div class="all_box mandudel">
+          <div class="all_list">
+            <dl>
+              <dt><a th:href="@{/m/index}">갤러리</a></dt>
+              <dd><a th:href="@{/m/board/lists?id=HIT}">HIT 갤러리</a></dd>
+              <dd><a th:href="@{/m/board/lists?id=gcbest}">실시간 베스트 갤러리</a></dd>
+            </dl>
+            <dl class="rankingGall">
+              <dt>인기갤러리</dt>
+            </dl>
+            <dl>
+              <dt>주요서비스</dt>
+            </dl>
+            <dl class="rollingGall">
+              <dt><span>갤러리 순회</span></dt>
+                <a href="#" id="rollingGallA">
+                    <span class="rank_txt" text=""></span>
+                </a>
+
+                <script>
+                    $(()=>{
+                        let jsonData = {}
+
+                        $.ajax({
+                            url:'/GCInside/RollingGall',         // Ajax 요청을 보낼 URL
+                            method: 'POST',                         // HTTP 요청 메소드 (POST)
+                            contentType: 'application/json',        // 서버로 전송할 데이터의 타입 (JSON)
+                            data: JSON.stringify(jsonData),         // 서버로 전송할 데이터 (jsonData)
+                            dataType:'json',                        // 서버에서 받아올 데이터의 타입 (JSON)
+                            success: function(data){                // Ajax 요청이 성공했을 때 실행할 함수
+                                if(data.result > 0) {
+                                    data.MainIndexRollingGall.forEach((vo)=>{
+                                        let $a = $('#rollingGallA').clone();
+                                        $a.attr('href','/GCInside/'+vo.gell_grade_str+'/board/lists?id='+vo.gell_address);
+                                        $a.find('span').text(vo.gell_name);
+                                        $('.rollingGall').append($a);
+                                    });
+                                    $('#rollingGallA').hide();
+                                } else {
+                                    console.log('실패');
+
+                                }
+                            }
+                        })
+                    })
+                </script>
+            </dl>
+            <dl>
+              <dt><a href="#" target="_blank">갤시뉴스</a></dt>
+            </dl>
+            <dl>
+              <dt><a href="#">디시미디어</a></dt>
+            </dl>
+          </div>
+          <div class="all_bottom">
+            <a th:href="@{/ad/index}" target="_blank"><strong class="tit">광고안내</strong></a>
+            <span class="list">
+                        <a th:href="@{/ad/index}" target="_blank" class="link_info">디스플레이광고</a>
+                        <a th:href="@{/ad/ad_guide_event}" target="_blank" class="link_info">프로모션</a>
+                        <a th:href="@{/ad/ad_guide_pc2}" target="_blank" class="link_info">광고문의</a>
+                    </span>
+            <span class="bottom_menu">
+                        <button onclick="toggleDarkMode()"><a class="menu_link" href="javascript:;"><em class="sp_img icon_sdark"></em>야간모드</a></button>
+                        <a class="menu_link menu_fold" href="javascript:void(0);" style="display:block"><em class="sp_img icon_fold"></em>닫기</a>
+                        <a class="menu_link menu_open" href="javascript:void(0);" style="display:none"><em class="sp_img icon_open"></em>열기</a>
+                        <a class="menu_link" href="#top" ><em class="sp_img icon_up"></em>맨위로</a>
+                    </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info_policy">
+        <a href="/GCInside/company/index">회사소개</a>
+        <a href="/GCInside/company/index#alliance">제휴안내</a>
+        <a href="/GCInside/ad/index">광고안내</a>
+        <a href="/GCInside/terms/policy">이용약관</a>
+        <a href="/GCInside/terms/privacy"><b>개인정보처리방침</b></a>
+        <a href="/GCInside/terms/youth_policy">청소년보호정책</a>
+      </div>
+
+      <div class="copyright">Copyright ⓒ 2023 gcinside. All rights reserved.</div>
+    </footer>
+</footer>
+
+    <!-- 2023/03/10 // 심규영 // 관리자 공통 footer -->
+    <footer class="admin_footer gcfoot" th:fragment="adminFooter">
+        <div class="copyright">Copyright ⓒ 2023 gcinside. All rights reserved.</div>
+    </footer>
+
+    <!-- 2023.03.17 // 라성준 // AD footer -->
+    <footer class="ad_footer gcfoot" th:fragment="adFooter">
+        <footer class="foot">
+            <div class="inner">
+                <div class="info_policy">
+                    <a th:href="@{/company/index}">회사소개</a>
+
+                    <a th:href="@{/company/index#alliance}">제휴안내</a>
+                    <a th:href="@{/ad/index}">광고안내</a>
+                    <a th:href="@{/terms/policy}">이용약관</a>
+                    <a th:href="@{/terms/privacy}"><b>개인정보처리방침</b></a>
+                    <a th:href="@{/terms/youth_policy}">청소년보호정책</a>
+                </div>
+                <div class="copyright">Copyright ⓒ 2023 - 2023 gcinside. All rights reserved.</div>
+            </div>
+        </footer>
+    </footer>
+
+    <!-- 2023/03/18 // 심규영 // board 푸터 공통 , write 제외 -->
+    <footer class="gcfoot" th:fragment="boardFooter">
+        <div class="gc_all">
+            <div class="all_box mandudel">
+                <!-- 각 카테고리의 상위 랭킹 갤러리 10개씩 -->
+                <div class="all_list">
+                    <dl>
+                        <dt>게임</dt>
+                        <dd><a href="#">ㅁㅁ 갤러리</a></dd>
+                        <dd><a href="#">ㅁㅁ 갤러리</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>연애/방송</dt>
+                    </dl>
+                    <dl>
+                        <dt>스포츠</dt>
+                    </dl>
+                    <dl>
+                        <dt>교육/금융/IT</dt>
+                    </dl>
+                    <dl>
+                        <dt>여행/음식/생물</dt>
+                    </dl>
+                    <dl>
+                        <dt>취미/생활</dt>
+                    </dl>
+                </div>
+                <div class="all_bottom">
+                    <a th:href="@{/ad/index}" target="_blank"><strong class="tit">광고안내</strong></a>
+                    <span class="list">
+                        <a href="#" target="_blank" class="link_info">디스플레이광고</a>
+                        <a href="#" target="_blank" class="link_info">프로모션</a>
+                        <a href="#" target="_blank" class="link_info">광고문의</a>
+                    </span>
+                    <span class="bottom_menu">
+                        <button onclick="toggleDarkMode()"><a class="menu_link" href="javascript:;"><em class="sp_img icon_sdark"></em>야간모드</a></button>
+                        <a class="menu_link menu_fold" href="javascript:void(0);" style="display:block"><em class="sp_img icon_fold"></em>닫기</a>
+                        <a class="menu_link menu_open" href="javascript:void(0);" style="display:none"><em class="sp_img icon_open"></em>열기</a>
+                        <a class="menu_link" href="#top" ><em class="sp_img icon_up"></em>맨위로</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="info_policy">
+            <a th:href="@{/company/index}">회사소개</a>
+            <a th:href="@{/company/index#alliance}">제휴안내</a>
+            <a th:href="@{/ad/index}">광고안내</a>
+            <a th:href="@{/terms/policy}">이용약관</a>
+            <a th:href="@{/terms/privacy}"><b>개인정보처리방침</b></a>
+            <a th:href="@{/terms/youth_policy}">청소년보호정책</a>
+        </div>
+
+        <div class="copyright">Copyright ⓒ 2023 gcinside. All rights reserved.</div>
+    </footer>
+
+    <!-- 2023/03/27 // 라성준 // gall 푸터 공통 -->
+    <footer class="gcfoot" th:fragment="gallFooter">
+    <footer class="gcfoot">
+        <div class="gc_all">
+        </div>
+
+        <div class="info_policy">
+            <a th:href="@{/company/index}">회사소개</a>
+            <a th:href="@{/company/index#alliance}">제휴안내</a>
+            <a th:href="@{/ad/index}">광고안내</a>
+            <a th:href="@{/terms/policy}">이용약관</a>
+            <a th:href="@{/terms/privacy}"><b>개인정보처리방침</b></a>
+            <a th:href="@{/terms/youth_policy}">청소년보호정책</a>
+        </div>
+
+        <div class="copyright">Copyright ⓒ 2023 gcinside. All rights reserved.</div>
+    </footer>
+</body>
+</html>

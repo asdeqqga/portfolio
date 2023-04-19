@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<th:block th:replace="~{member/_header_login}"></th:block>
+        <main id="container">
+            <div class="content repw">
+              <article>
+                <h2 class="blind">아이디 찾기</h2>
+                <section id="pagemenu">
+                  <h2 class="blind">페이지 메뉴</h2>
+                  <ul class="page_menu clear">
+                    <li><a th:href="@{/member/find_id}" class="pmenu ">아이디 찾기</a></li>
+                    <li><a th:href="@{/member/reset_pwd}" class="pmenu on">비밀번호 재설정</a></li>
+                  </ul>
+                </section>
+                <section>
+                  <div class="cont_head">
+                    <h3 class="head_tit">비밀번호 재설정</h3>
+                  </div>
+                  <div id="contbox" class="con_box brd">
+                    <!-- 정보 입력 -->
+		  <div class="con innerbox">
+        <h4 class="tit font_red">아이디, 이메일을 입력해서 재설정 하기</h4>
+  
+        <div class="info_txt">
+          <p><em class="tip_deco_dot"></em>회원가입때 인증하신 이메일 정보를 입력해 주세요.</p>
+          <p><em class="tip_deco_dot"></em>아이디를 잊으신 경우 아이디 찾기를 통해 아이디 확인을 먼저 해주시기 바랍니다.</p>
+          <p><em class="tip_deco_dot"></em>아이디,이메일이 일치해야 비밀번호를 재설정하실 수 있습니다.</p>
+        </div>
+  
+        <div class="bg_box">
+          <div class="form_box">
+          <form th:action="@{/member/reset_pwd_Result}" onsubmit="return password_resetResult()" name='reset_pwd' method="post" accept-charset="utf-8" id="reset_pwd">
+          <input type="text" id="member_uid" name="member_uid" class="int" title="아이디" placeholder="아이디" maxlength="20">
+          <input type="text" id="member_email" name="member_email" class="int" title="이메일 입력" placeholder="이메일" maxlength="30">
+            <button type="submit" class="btn_blue small btn_wrfull" >확인</button>
+          </form>
+          </div>
+        </div>
+        <div class="mt45">
+          <h4 class="tit font_red">본인인증으로 재설정하기</h4>
+          <div class="info_txt">
+          <p><em class="tip_deco_dot"></em>이메일을 분실한 경우 본인인증을 통해 비밀번호를 재설정하실 수 있습니다.</p>
+          <p>단, 해당 아이디가 토스 인증으로 이미 인증이 되어있어야 하며 인증이 안  되어 있는 경우 비밀번호를 재설정하실 수 없습니다.</p>
+          </div>
+          <div class="btn_box tcenter">
+          <a href="#" onclick="open_toss()" class="btn_tyeonblue btn_toss">토스 인증으로 재설정</a>
+          </div>
+        </div>
+        </div>
+              </div>
+      </div>
+      </section>
+    </article>
+    </div>
+  </main>
+<th:block th:replace="~{fragment/footer_fragment::termsFooter}"></th:block>
+          </div>
+  </body>
+</html>

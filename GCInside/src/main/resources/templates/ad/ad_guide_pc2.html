@@ -1,0 +1,121 @@
+<!-- 2023/03/06 // 라성준 // -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="~{fragment/head_fragment::adHead}"></th:block>
+    <script>
+      var lnbMenu=0, lnbSubMenu=0, gMenu=1;
+    $(function(){
+        });
+    </script>
+</head>
+<body>
+    <!--스킵 내비게이션-->
+  <div class="skip">
+    <a href="#gmenu_wrap"><span>메뉴바로가기</span></a>
+    <a href="#left_wrap"><span>서브 메뉴바로가기</span></a>
+    <a href="#right_wrap"><span>본문영역 바로가가기</span></a>
+  </div>
+  <!--//스킵 내비게이션-->
+  <div class="gc_adwrap sub">
+    <!-- GNB -->
+    <div id="gmenu_wrap">
+      <div class="gnb_bar">
+  <div class="inner clear">
+    <h1 class="gc_logo">
+      <a th:href="@{/index}">
+        <img th:src="@{/img/gcin_logo3.png}" alt="디시인사이드">
+      </a>
+    </h1>
+    <div style="position:relative;float:right">
+      <ul class="gmenu_list clear">
+        <li><a th:href="@{/ad/index}">광고안내</a></li>
+        <li><a th:href="@{/ad/ad_guide_pc2}"> 광고 상품 및 가이드</a></li>
+        <li><a th:href="@{#@gmail.com}">광고문의</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- //GNB -->
+
+<!-- 본문 -->
+<main id="container">
+  <div class="content clear">
+    <div id="left_wrap" class="fl">
+
+      <th:block th:replace="~{fragment/aside_fragment::adAside}"></th:block>
+
+                  </div>
+                  <div id="right_wrap" class="right_content">
+                    <section>
+                      <h2 class="cont_head">Moblie web + PC 광고</h2>
+                      <div class="cont_body pm_ad">
+                        <h3 class="cont_tit">동영상 자동 짤방</h3>
+                        <div class="table_box">
+                          <table class="ad_table type1">
+                            <caption>광고상품 정보</caption>
+                            <colgroup>
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                              <col style="width:33.3%">
+                            </colgroup>
+                            <thead>
+                              <tr>
+                                <th scope="col">배너 사이즈(px)</th>
+                                <th scope="col">가격 (CPM)</th>
+                                <th scope="col">평균 CTR</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <p>
+                                    <b>400 * 226</b>
+                                  </p>
+                                </td>
+                                <td>
+                                  <b>2,000</b>
+                                  
+                                </td>
+                                <td>
+                                  <b>0.15%</b>
+                                </td>
+                              </tr>
+                            </tbody>
+          
+                          </table>
+                        </div>
+          
+                        <div class="cont_banbox">
+                          <img th:src="@{/img/npc_ad_img2_2023.png}" alt="">
+                        </div>
+                        <div class="infotxt_box">
+                          <ol>
+                            <li>1) 길이 : 5초 이상</li>
+                            <li>2) 용량 : 10MB 안팎</li>
+                            <li>3) 파일 포맷 : MP4</li>
+                            <li>4) 사이즈 : 400*226</li>  
+                            <li>5) 사운드 : 동영상 내 사운드 필수</li>  
+                            <li>6) 사운드가 없는 경우 '본 영상은 사운드가 없는 광고입니다' 문구 삽입</li>  
+                            <li>7) 자동으로 무음 영상이 재생</li>  
+                            <li>8) 제어 버튼(정지/사운드/닫기) : 디시인사이드 측 내부 검수 후 삽입</li>  
+                            <li>9) PC 버전 : 영상 클릭 시, 랜딩 페이지로 이동</li>  
+                            <li>10) PC 버전 : 영상 클릭 시, 랜딩 페이지로 이동</li>  
+                            <li>11) Mobile Web 버전 : 우상단의 CLICK 버튼 클릭 시, 랜딩 페이지로 이동</li>  
+                          </ol>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </main>
+              <!-- //본문 -->
+              <!-- 하단 -->
+    <footer th:replace="~{fragment/footer_fragment::adFooter}"></footer>
+              <!-- //하단 -->
+            </div>
+          </body>
+          
+          </html>

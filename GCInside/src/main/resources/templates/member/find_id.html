@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<th:block th:replace="~{member/_header_login}"></th:block>
+        <main id="container">
+            <div class="content idsearch">
+              <article>
+                <h2 class="blind">아이디 찾기</h2>
+                <section id="pagemenu">
+                  <h2 class="blind">페이지 메뉴</h2>
+                  <ul class="page_menu clear">
+                    <li><a th:href="@{/member/find_id}" class="pmenu on">아이디 찾기</a></li>
+                    <li><a th:href="@{/member/reset_pwd}" class="pmenu">비밀번호 재설정</a></li>
+                  </ul>
+                </section>
+                <section>
+                  <div class="cont_head">
+                    <h3 class="head_tit">아이디 찾기</h3>
+                  </div>
+                  <div id="contbox" class="con_box brd nomin">
+                    <!-- 정보 입력 -->
+                    <form th:action="@{/member/sendIdCode}" name='findid' method="post" accept-charset="utf-8">
+                    <div class="con innerbox">
+                      <h4 class="tit font_red">이메일을 입력해서 찾기</h4>
+                      <div class="info_txt">
+                        <p><em class="tip_deco_dot"></em>회원가입때 인증하신 이메일 정보를 입력해 주세요.</p>
+                        <p><em class="tip_deco_dot"></em>입력하신 이메일로 아이디를 발송해드립니다.</p>
+                      </div>
+                      <div class="bg_box">
+                        <div class="form_box">
+                            <input type="text" id="member_email" name="member_email" class="int" title="이메일 입력" placeholder="이메일" maxlength="30">
+                            <button type="button" class="btn_blue small btn_wrfull" onclick="member_emailResult()">확인</button>
+                        </div>
+                      </div>
+                      </form>
+                      <div class="mt45">
+                        <h4 class="tit font_red">본인인증으로 찾기</h4>
+                        <div class="info_txt">
+                          <p><em class="tip_deco_dot"></em>이메일을 잊으신 경우 본인인증을 통해 아이디를 찾을 수 있습니다.</p>
+                          <p>단, 해당 아이디가 토스 인증으로 이미 인증이 되어있어야 하며 인증이 안 되어있으면 아이디를 찾을 수 없습니다.</p>
+                        </div>
+                        <div class="btn_box tcenter">
+                          <a href="#" onclick="open_toss()" class="btn_tyeonblue btn_toss">토스 인증으로 찾기</a>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                </section>
+              </article>
+            </div>
+          </main>
+<th:block th:replace="~{fragment/footer_fragment::termsFooter}"></th:block>
+          </div>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<th:block th:replace="~{member/_header_login}"></th:block>
+        <main id="container">
+            <div class="content repw">
+              <article>
+                <h2 class="blind">아이디 찾기</h2>
+                <section id="pagemenu">
+                  <h2 class="blind">페이지 메뉴</h2>
+                  <ul class="page_menu clear">
+                  </ul>
+                </section>
+                <section>
+                  <div class="cont_head">
+                    <h3 class="head_tit">비밀번호 재설정</h3>
+                  </div>
+                  <div id="contbox" class="con_box brd">
+                    <!-- 정보 입력 -->
+		  <div class="con innerbox">
+        <h4 class="tit font_red">비밀번호 변경</h4>
+        <div class="info_txt">
+          <p><em class="tip_deco_dot"></em>변경하실 비밀번호를 입력해주세요.</p>
+          <p><em class="tip_deco_dot"></em>영문,숫자,특수문자 조합, 8~20자로 구성해주세요.</p>
+        </div>
+        <div class="bg_box">
+          <div class="form_box">
+          <form th:action="@{/member/reset_pwd_Update}" onsubmit="return password_reset_update()" name='reset_pwd_Result' method="post" accept-charset="utf-8" id="reset_pwd_Result">
+              <input type="hidden" id="member_uid" name="member_uid" th:value="${member_uid}">
+              <input type="hidden" id="member_email" name="member_email" th:value="${member_email}">
+              <input type="password" id="member_pass" name="member_pass" class="int" title="비밀번호" placeholder="변경하실비밀번호" maxlength="20">
+              <input type="password" id="member_pass1" name="member_pass1" class="int" title="비밀번호 재입력" placeholder="변경하실비밀번호 재입력" maxlength="20">
+              <button type="submit" class="btn_blue small btn_wrfull">확인</button>
+          </form>
+          </div>
+        </div>
+          <div class="btn_box tcenter">
+          </div>
+        </div>
+        </div>
+        <!--//정보 입력 -->
+            <div id="other_auth_pop" class="pop_wrap type3" style="left:50%;top:50%;margin-left:-159px;margin-top:-100px;display:none;">
+                <div class="pop_content another_certify">
+                    <div class="pop_head bg"><h3>인증하기</h3></div>
+                    <div class="inr">
+                      <strong class="stit">휴대폰 인증</strong>
+                      <div class="txtbox">
+                        <p>본인 명의의 휴대폰을 통한 본인인증 서비스입니다.</p>
+                      </div>
+                      <div class="btn_box">
+                        <button type="button" class="btn_green small auto" onclick="open_mobile()">휴대폰 인증하기</button>
+                      </div>
+                    </div>
+                  </div>
+                    <button type="button" class="poply_whiteclose" onclick="open_other_auth('close')"><span class="blind">레이어 닫기</span><em class="sp_img icon_whiteclose"></em></button>
+                  </div>
+              </div>
+          </div>
+      </section>
+    </article>
+    </div>
+  </main>
+<th:block th:replace="~{fragment/footer_fragment::termsFooter}"></th:block>
+          </div>
+  </body>
+</html>
