@@ -25,9 +25,9 @@ public class EmailService {
         HtmlEmail email = new HtmlEmail();
         email.setHostName("smtp.gmail.com");
         email.setSmtpPort(587);
-        email.setAuthenticator(new DefaultAuthenticator("jungy0309", "mnmmgsvmiikutlca"));
+        email.setAuthenticator(new DefaultAuthenticator("", ""));
         email.setSSLOnConnect(true);
-        email.setFrom("jungy0309@gmail.com", "관리자");
+        email.setFrom("", "관리자");
         email.addTo(toEmail);
         email.setSubject(subject);
         email.setCharset("utf-8"); 
