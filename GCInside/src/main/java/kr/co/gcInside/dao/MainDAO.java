@@ -43,6 +43,12 @@ public interface MainDAO {
     public List<galleryVO> MainIndexRollingGall();
 
     /**
+     * 2023.04.24 // 라성준 // 메인인덱스 인기갤러리 DAO
+     * @return
+     */
+    public List<galleryVO> MainIdexPopularityGell();
+
+    /**
      *  2023.03.22 // 라성준 // 
      *  페이징
      *  마이너 갤러리 개수 가져오기
@@ -61,8 +67,44 @@ public interface MainDAO {
      */
     public Map<String, Object> selectYesterdayCount();
 
-    public List<gell_articleVO> selectRealtimeGetArticleList(Map<String,String> data);
+    /**
+     * 2023/04/19 // 심규영 // 실시간 게시물 불러오는 기능
+     * @param start
+     * @return
+     */
+    public List<gell_articleVO> selectRealtimeGetArticleList(@Param("start") int start);
 
+    /**
+     * 2023/04/21 // 심규영 // 실시간 북적이는 갤러리 불러오는 기능<br/>
+     * 나열 방식 => 1: total 내림차순 DESC, 2: 이전 랭킹 올림차순 ASC
+     * @param gall_type -> 겔러리 종류 번호 {0:메인, 1:마이너,2:미니}
+     * @param start -> 시작 번호
+     * @return [{
+     *     rank         : 랭킹,
+     *     preRank      : 이전 랭킹,
+     *     gell_name    : 갤러리 이름,
+     *     gell_address : 갤러리 주소,
+     *     total        : 1시간 내의 신규 게시글, 댓글, 대댓글 개수,
+     *     preTotal     : 1시간 전 부터 2시간 전 이후의 게시글, 댓글 , 대댓글 개수,
+     * }]
+     */
+    public List<Map<String, Object>> selectHotLiveArticles(@Param("gall_type") int gall_type, @Param("start") int start);
+
+    /**
+     * 2023/04/21 // 심규영 // 갤러리 랭킹 불러오는 기능<br/>
+     * 나열 방식 => 1: total 내림차순 DESC, 2: 이전 랭킹 올림차순 ASC
+     * @param gall_type -> 겔러리 종류 번호 {0:메인, 1:마이너,2:미니}
+     * @param start -> 시작 번호
+     * @return [{
+     *     rank         : 랭킹,
+     *     preRank      : 이전 랭킹,
+     *     gell_name    : 갤러리 이름,
+     *     gell_address : 갤러리 주소,
+     *     total        : 1시간 내의 신규 게시글, 댓글, 대댓글 개수,
+     *     preTotal     : 1시간 전 부터 2시간 전 이후의 게시글, 댓글 , 대댓글 개수,
+     * }]
+     */
+    public List<Map<String, Object>> selectHotArticles(@Param("gall_type") int gall_type, @Param("start") int start);
 
     /**
      * 2023/04/07 // 김동민 // 흥한갤러리 관련 minor에서 사용했던 코드 메인에 적용
@@ -92,4 +134,9 @@ public interface MainDAO {
      */
 
     public List<gell_articleVO> hitgall();
+
+    /**
+     * 2023/04/21 // 김재준 // 카테고리별 개념글 가져오기
+     */
+    public List<Map<String, Object>> selectHotArticlesByCategory(@Param("cate") int cate);
 }

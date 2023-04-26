@@ -4,6 +4,7 @@ import kr.co.gcInside.dao.MainDAO;
 import kr.co.gcInside.vo.galleryVO;
 import kr.co.gcInside.vo.gell_articleVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,14 @@ public class MainService {
     }
 
     /**
+     * 2023.04.24 // 라성준 // 메인 인덱스 인기갤러리 서비스
+     * @return
+     */
+    public List<galleryVO> MainIdexPopularityGell () {
+        return dao.MainIdexPopularityGell();
+    }
+
+    /**
      * 2023.03.24 // 라성준 // 마이너 갤러리 개수 가져오기
      * @return
      */
@@ -68,6 +77,62 @@ public class MainService {
      */
     public Map<String, Object> selectYesterdayCount(){
         return dao.selectYesterdayCount();
+    }
+
+    /**
+     * 2023/04/19 // 심규영 // 실시간 게시물 불러오는 기능
+     * @param pg
+     * @return
+     */
+    public List<gell_articleVO> selectRealtimeGetArticleList(String pg) {
+        int start = (Integer.parseInt(pg) - 1) * 25;
+        return dao.selectRealtimeGetArticleList(start);
+    }
+
+    /**
+     * 2023/04/21 // 심규영 // 실시간 북적이는 갤러리 불러오는 기능<br/>
+     * 나열 방식 => 1: total 내림차순 DESC, 2: 이전 랭킹 올림차순 ASC
+     * @param data {
+     *             gall_type : 갤러리 타입 {g : 메인 , m: 마이너 , mi: 미니 }
+     *             page : 페이지 번호
+     * }
+     * @return [{
+     *     rank         : 랭킹
+     *     preRank      : 이전 랭킹
+     *     gell_name    : 갤러리 이름,
+     *     gell_address : 갤러리 주소,
+     *     total        : 1시간 내의 신규 게시글, 댓글, 대댓글 개수
+     *     preTotal     : 1시간 전 부터 2시간 전 이후의 게시글, 댓글 , 대댓글 개수
+     * }]
+     */
+    public List<Map<String, Object>> selectHotLiveArticles(Map<String, String> data){
+        int gall_type = data.get("gall_type").equals("g") ? 0 : data.get("gall_type").equals("m") ? 1 : 2;
+        int start = (Integer.parseInt(data.get("page")) - 1) * 10;
+
+        return dao.selectHotLiveArticles(gall_type, start);
+    }
+
+    /**
+     * 2023/04/21 // 심규영 // 갤러리 랭킹 불러오는 기능<br/>
+     * 나열 방식 => 1: total 내림차순 DESC, 2: 이전 랭킹 올림차순 ASC
+     * @param data {
+     *             gall_type : 갤러리 타입 {g : 메인 , m: 마이너 , mi: 미니 }
+     *             page : 페이지 번호
+     * }
+     * @return [{
+     *     rank         : 랭킹
+     *     preRank      : 이전 랭킹
+     *     gell_name    : 갤러리 이름,
+     *     gell_address : 갤러리 주소,
+     *     total        : 1시간 내의 신규 게시글, 댓글, 대댓글 개수
+     *     preTotal     : 1시간 전 부터 2시간 전 이후의 게시글, 댓글 , 대댓글 개수
+     * }]
+     */
+    public List<Map<String, Object>> selectHotArticles(Map<String, String> data){
+        int gall_type = data.get("gall_type").equals("g") ? 0 : data.get("gall_type").equals("m") ? 1 : 2;
+        int start = (Integer.parseInt(data.get("page")) - 1) * 10;
+
+        return dao.selectHotArticles(gall_type, start);
     }
 
     /**
@@ -175,6 +240,15 @@ public class MainService {
      */
     public List<gell_articleVO> hitgall(){
         return dao.hitgall();
+    }
+
+    /**
+     * 2023/04/21 // 김재준 // 카테고리별 개념글 가져오기
+     */
+    public List<Map<String, Object>> selectHotArticlesByCategory(Map<String, String> data) {
+        int cate = Integer.parseInt(data.get("cate"));
+
+        return dao.selectHotArticlesByCategory(cate);
     }
 
 }
