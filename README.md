@@ -16,11 +16,11 @@
   </tr>
   <tr>
     <td>배포주소</td>
-    <td><a href="http://13.124.167.61:8082/GCInside/" target="_blank">http://43.201.59.32:8082/GCInside/</a></td>
+    <td><a href="http://13.124.167.61:8082/GCInside/" target="_blank">http://13.124.167.61:8082/GCInside/</a></td>
   </tr>
   <tr>
     <td>개발기간</td>
-    <td>2023.02.27 ~2023.04.24 (총 58일)<td>
+    <td>2023.02.27 ~  (총 일)</td>
   </tr>
 </table>
 
