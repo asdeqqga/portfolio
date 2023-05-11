@@ -3,6 +3,7 @@ package kr.co.gcInside.controller;
 import kr.co.gcInside.security.MyUserDetails;
 import kr.co.gcInside.service.MinorService;
 import kr.co.gcInside.service.TermsService;
+import kr.co.gcInside.utill.SecurityCheckUtil;
 import kr.co.gcInside.vo.CreateVO;
 import kr.co.gcInside.vo.TermsVO;
 import kr.co.gcInside.vo.galleryVO;
@@ -35,11 +36,12 @@ public class MinorController{
 
     /**
      * 2023/03/28 // 김동민 // 마이너 인덱스 순위변동 기능구현 중
+     * 2023/05/04 // 심규영 // 헤더 이름 구분 추가 // sName
      * @param model
      * @return
      */
     @GetMapping(value = {"/mgall/","mgall/index"})
-    public String minorindex(Model model){
+    public String minorindex(Model model, @AuthenticationPrincipal MyUserDetails myUserDetails){
         service.minorinit();
         log.info("! minor rank update !");
         List<galleryVO> hot_mgall = service.selecthotmgall();
@@ -54,6 +56,11 @@ public class MinorController{
         model.addAttribute("hot_mgall",hot_mgall);
         model.addAttribute("new_mgall",new_mgall);
         model.addAttribute("mgall",mgall);
+        model.addAttribute("sName","마이너 갤러리");
+        model.addAttribute("authorize", new SecurityCheckUtil().getSecurityInfoDTO(myUserDetails));     // "authorize"라는 이름으로 MyUserDetails 객체를 이용하여 보안 정보 데이터 전달
+
+        if(myUserDetails != null) model.addAttribute("user", myUserDetails.getUser());
+
         return "gall/mgall/index";
     }
 
