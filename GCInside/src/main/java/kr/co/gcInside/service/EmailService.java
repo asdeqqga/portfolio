@@ -32,16 +32,10 @@ public class EmailService {
         HtmlEmail email = new HtmlEmail();
         email.setHostName("smtp.gmail.com");
         email.setSmtpPort(587);
-<<<<<<< HEAD
         // username, password 로변경하면 더 깔끔함 .gitignore에 제외파일설정할 필요 X
         email.setAuthenticator(new DefaultAuthenticator(username, password));
         email.setSSLOnConnect(true);
         email.setFrom(username, "관리자"); //메일발송시 보내는이메일,이름
-=======
-        email.setAuthenticator(new DefaultAuthenticator(username, password));
-        email.setSSLOnConnect(true);
-        email.setFrom(username, "관리자");
->>>>>>> ab3a6614f79497f61b65a44e14346a2cd5edff9d
         email.addTo(toEmail);
         email.setSubject(subject);
         email.setCharset("utf-8"); 
