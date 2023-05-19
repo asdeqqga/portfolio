@@ -63,7 +63,7 @@
 
 ### <a href="데이터베이스 테이블 명세서.pdf" target="_blank">테이블 명세서</a>
 
-### <a href="GCInside 발표 보고서_v.1.1.pdf" target="_blank">발표 보고서</a>
+### <a href="GCInside 발표 보고서_v.1.2.pdf" target="_blank">발표 보고서</a>
 
 ### <a href="GCInside 완료 보고서 v.1.1.pdf" target="_blank">완료 보고서</a>
 
